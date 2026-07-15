@@ -8,6 +8,7 @@ const navItems = [
   { href: '/',                                    label: 'home',      external: false },
   { href: '/portfolio',                           label: 'portfolio', external: false },
   { href: '/blog',                                label: 'blog',      external: false },
+  { href: '/games',                               label: 'games',     external: false },
   { href: 'https://www.linkedin.com/in/nikkirana1/', label: 'linkedin', external: true  },
 ]
 
@@ -53,7 +54,8 @@ export function Navbar() {
                   ? pathname === '/'
                   : pathname === href ||
                     pathname.startsWith(href + '/') ||
-                    (href === '/portfolio' && pathname.startsWith('/projects')))
+                    (href === '/portfolio' && pathname.startsWith('/projects')) ||
+                    (href === '/games'     && pathname.startsWith('/games')))
 
               const sharedClass =
                 'flex items-center relative py-1 px-2 m-1 transition-colors duration-150 ' +
