@@ -28,7 +28,7 @@ export default function PortfolioPage() {
         <section className="glass glass-ring p-6 md:p-10">
 
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-8 relative">
             <h1 className="font-pixel font-pixel-xl drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]"
                 style={{ fontFamily: 'var(--font-pixel), monospace' }}>
               // portfolio
@@ -36,6 +36,34 @@ export default function PortfolioPage() {
             <p className="mt-3 text-pink-200/70 max-w-xl">
               Things I've built, organised, researched, and shipped.
             </p>
+
+            {/* "TOP SECRET" pixel stamp — decorative, aria-hidden */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                top: -4,
+                right: 0,
+                transform: 'rotate(-11deg)',
+                transformOrigin: 'center center',
+                fontFamily: 'var(--font-pixel), monospace',
+                fontSize: 10,
+                fontWeight: 500,
+                color: '#dc2626',
+                letterSpacing: '0.18em',
+                lineHeight: 1,
+                padding: '6px 14px',
+                border: '2px solid #dc2626',
+                outline: '1px solid rgba(220,38,38,0.45)',
+                outlineOffset: '3px',
+                background: 'rgba(220,38,38,0.07)',
+                boxShadow: '2px 2px 0 rgba(0,0,0,0.55)',
+                userSelect: 'none',
+                pointerEvents: 'none',
+              }}
+            >
+              TOP SECRET
+            </div>
           </div>
 
           {/* Filter pills */}
