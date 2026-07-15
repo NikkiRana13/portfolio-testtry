@@ -21,7 +21,7 @@ type Props = {
 function PenSVG({ wiggling }: { wiggling: boolean }) {
   return (
     <svg
-      viewBox="0 0 84 14"
+      viewBox="0 0 71 14"
       width="100%"
       height="100%"
       aria-hidden="true"
@@ -31,23 +31,20 @@ function PenSVG({ wiggling }: { wiggling: boolean }) {
         animation: wiggling ? 'penWiggle 0.5s ease 1' : undefined,
       }}
     >
-      {/* Eraser cap (left) */}
-      <rect x={0}  y={2}  width={6}  height={10} fill="#fce7f3" shapeRendering="crispEdges" />
-      <rect x={6}  y={2}  width={3}  height={10} fill="#B3446C" shapeRendering="crispEdges" />
-      {/* Body */}
-      <rect x={9}  y={4}  width={54} height={6}  fill="#f472b6" shapeRendering="crispEdges" />
+      {/* Body (eraser removed — shifted everything left by 9) */}
+      <rect x={0}  y={4}  width={54} height={6}  fill="#f472b6" shapeRendering="crispEdges" />
       {/* Highlight stripe */}
-      <rect x={9}  y={4}  width={54} height={2}  fill="#fce7f3" opacity={0.35} shapeRendering="crispEdges" />
+      <rect x={0}  y={4}  width={54} height={2}  fill="#fce7f3" opacity={0.35} shapeRendering="crispEdges" />
       {/* Label band */}
-      <rect x={32} y={4}  width={10} height={6}  fill="#B3446C" shapeRendering="crispEdges" />
+      <rect x={23} y={4}  width={10} height={6}  fill="#B3446C" shapeRendering="crispEdges" />
       {/* Nib */}
-      <rect x={63} y={4}  width={8}  height={6}  fill="#B3446C" shapeRendering="crispEdges" />
+      <rect x={54} y={4}  width={8}  height={6}  fill="#B3446C" shapeRendering="crispEdges" />
       {/* Tip */}
-      <rect x={71} y={5}  width={4}  height={4}  fill="#2d0f1e" shapeRendering="crispEdges" />
-      <rect x={75} y={6}  width={3}  height={2}  fill="#2d0f1e" shapeRendering="crispEdges" />
-      <rect x={78} y={6}  width={2}  height={2}  fill="#4d1a2e" shapeRendering="crispEdges" />
+      <rect x={62} y={5}  width={4}  height={4}  fill="#2d0f1e" shapeRendering="crispEdges" />
+      <rect x={66} y={6}  width={3}  height={2}  fill="#2d0f1e" shapeRendering="crispEdges" />
+      <rect x={69} y={6}  width={2}  height={2}  fill="#4d1a2e" shapeRendering="crispEdges" />
       {/* Drop shadow line */}
-      <rect x={9}  y={10} width={69} height={1}  fill="rgba(0,0,0,0.3)" shapeRendering="crispEdges" />
+      <rect x={0}  y={10} width={69} height={1}  fill="rgba(0,0,0,0.3)" shapeRendering="crispEdges" />
     </svg>
   )
 }
@@ -194,8 +191,8 @@ export function NotebookScene({ posts }: Props) {
               <div
                 aria-hidden="true"
                 style={{
-                  width: 'clamp(100px, 16vw, 200px)',
-                  aspectRatio: '84 / 14',
+                  width: 'clamp(140px, 20vw, 280px)',
+                  aspectRatio: '71 / 14',
                   transform: 'rotate(-8deg)',
                   transformOrigin: 'right center',
                   transition: 'transform 0.3s ease',
@@ -211,7 +208,7 @@ export function NotebookScene({ posts }: Props) {
 
               <p
                 className="font-pixel font-pixel-xs"
-                style={{ color: 'rgba(249,168,212,0.55)', letterSpacing: '0.1em' }}
+                style={{ color: 'rgba(179,68,108,0.65)', letterSpacing: '0.1em' }}
                 aria-hidden="true"
               >
                 click to open
@@ -324,7 +321,7 @@ function NotebookClosed() {
             style={{
               fontFamily: 'var(--font-pixel), monospace',
               fontSize: 32,
-              color: '#fce7f3',
+              color: 'var(--pixel-ink)',
               lineHeight: 1.3,
               margin: 0,
             }}
@@ -350,7 +347,7 @@ function NotebookClosed() {
             style={{
               fontFamily: 'var(--font-pixel), monospace',
               fontSize: 14,
-              color: 'rgba(249,168,212,0.5)',
+              color: 'rgba(179,68,108,0.7)',
               lineHeight: 1.6,
               letterSpacing: '0.04em',
             }}
@@ -366,8 +363,8 @@ function NotebookClosed() {
 
         {/* Decorated corner stars */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6, marginTop: 4 }}>
-          <PixelStar color="rgba(249,168,212,0.35)" />
-          <PixelStar color="rgba(249,168,212,0.2)" />
+          <PixelStar color="rgba(179,68,108,0.4)" />
+          <PixelStar color="rgba(179,68,108,0.2)" />
         </div>
       </div>
     </div>
