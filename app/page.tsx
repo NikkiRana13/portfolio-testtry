@@ -4,26 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { projects } from 'app/projects/data'
 import { timeline } from 'app/content/timeline'
-import { interests } from 'app/content/interests'
 import { heroLinks, gallery } from 'app/content/about'
 import { Reveal } from 'app/components/reveal'
 import { ProjectCard } from 'app/components/project-card'
-
-// ─── Personal facts ────────────────────────────────────────────────────────────
-// Edit these directly — they appear as a short list in the About Me section.
-const facts = [
-  '[Fact 1 — e.g. Born and raised in Cambridge, ON]',
-  '[Fact 2 — e.g. Something you love outside of school]',
-  '[Fact 3 — e.g. A quirk or fun detail about you]',
-  '[Fact 4 — e.g. Something you\'re learning or excited about]',
-]
-
-// ─── Bio paragraphs ────────────────────────────────────────────────────────────
-// Replace each string with a paragraph of your own writing.
-const bio = [
-  '[PLACEHOLDER — First paragraph. Introduce yourself: where you\'re from, what you study, and what draws you to it. Keep it honest and specific — generic bios are forgettable.]',
-  '[PLACEHOLDER — Second paragraph. Get a little more personal. What drives you? What do you care about beyond grades and internships? What makes you, you?]',
-]
+import { TerminalAbout } from 'app/components/terminal'
 
 export default function Page() {
   const [displayText, setDisplayText] = useState('')
@@ -118,109 +102,39 @@ export default function Page() {
           </div>
         </section>
 
-        {/* ── About Me ─────────────────────────────────────────────────────── */}
+        {/* ── Terminal (replaces About Me + Interests) ──────────────────── */}
         <Reveal>
-          <section className="glass glass-ring p-6 md:p-10">
-            <h2 className="text-2xl font-semibold tracking-tight mb-8">About Me</h2>
+          <TerminalAbout />
+        </Reveal>
 
-            <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-              {/* About photo */}
-              <div className="md:w-56 lg:w-64 flex-shrink-0">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
-                  {/* ↓ Replace with your about photo:
-                      <Image src="/images/about.jpg" alt="Nikki" fill className="object-cover" />
-                  */}
-                  <div className="w-full h-full flex items-center justify-center text-xs text-neutral-500 text-center p-4 leading-relaxed">
-                    About photo
-                    <br />
-                    <span className="opacity-60">/public/images/about.jpg</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bio + facts */}
-              <div className="flex-1 min-w-0">
-                <div className="space-y-4">
-                  {bio.map((paragraph, i) => (
-                    <p key={i} className="text-pink-200/80 leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-
-                <div className="mt-8 border-t border-pink-900/30 pt-6">
-                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
-                    A few things about me
-                  </h3>
-                  <ul className="space-y-2 text-sm text-pink-200/70">
-                    {facts.map((fact, i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className="text-[#B3446C] select-none">–</span>
-                        {fact}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Photo gallery */}
-            <div className="mt-10 border-t border-pink-900/30 pt-8">
-              <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
+        {/* ── Photo gallery ─────────────────────────────────────────────── */}
+        {gallery.some(item => item.src) && (
+          <Reveal>
+            <section className="glass glass-ring p-6 md:p-10">
+              <h2 className="mb-5 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
                 Moments
-              </h3>
+              </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {gallery.map((item, i) => (
+                {gallery.filter(item => item.src).map((item, i) => (
                   <div key={i}>
                     <div className="aspect-square overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
-                      {item.src ? (
-                        <Image
-                          src={item.src}
-                          alt={item.caption || `Photo ${i + 1}`}
-                          width={400}
-                          height={400}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs text-neutral-500 text-center p-3 leading-relaxed">
-                          Photo {i + 1}
-                          <br />
-                          <span className="opacity-60">Set src in about.ts</span>
-                        </div>
-                      )}
+                      <Image
+                        src={item.src}
+                        alt={item.caption || `Photo ${i + 1}`}
+                        width={400}
+                        height={400}
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                     {item.caption && (
-                      <p className="mt-1.5 text-xs text-pink-300/50 text-center">
-                        {item.caption}
-                      </p>
+                      <p className="mt-1.5 text-center text-xs text-pink-300/50">{item.caption}</p>
                     )}
                   </div>
                 ))}
               </div>
-            </div>
-
-          </section>
-        </Reveal>
-
-        {/* ── Interests ────────────────────────────────────────────────────── */}
-        <Reveal>
-          <section className="glass glass-ring p-6 md:p-10">
-            <h2 className="text-2xl font-semibold tracking-tight mb-6">What I'm Into</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {interests.map((interest, i) => (
-                <div
-                  key={i}
-                  className="card rounded-xl p-4 ring-1 ring-white/8"
-                >
-                  <p className="font-medium text-pink-100">{interest.label}</p>
-                  <p className="mt-1 text-sm text-pink-300/55 leading-relaxed">
-                    {interest.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </Reveal>
+            </section>
+          </Reveal>
+        )}
 
         {/* ── Timeline ─────────────────────────────────────────────────────── */}
         <Reveal>
