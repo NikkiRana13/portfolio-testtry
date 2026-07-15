@@ -194,7 +194,7 @@ export function NotebookScene({ posts }: Props) {
               <div
                 aria-hidden="true"
                 style={{
-                  width: 'clamp(60px, 10vw, 120px)',
+                  width: 'clamp(100px, 16vw, 200px)',
                   aspectRatio: '84 / 14',
                   transform: 'rotate(-8deg)',
                   transformOrigin: 'right center',
@@ -461,9 +461,9 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           <h2
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 18,
+              fontSize: 26,
               color: 'var(--pixel-ink)',
-              lineHeight: 1.5,
+              lineHeight: 1.4,
               margin: 0,
             }}
           >
@@ -473,7 +473,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           <p
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 14,
+              fontSize: 18,
               color: 'rgba(179,68,108,0.8)',
               lineHeight: 1.5,
               letterSpacing: '0.04em',
@@ -486,7 +486,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
 
           <p
             style={{
-              fontSize: 13,
+              fontSize: 15,
               color: 'var(--pixel-ink)',
               opacity: 0.55,
               lineHeight: 1.7,
@@ -542,7 +542,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <span
                         style={{
                           fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 20,
+                          fontSize: 26,
                           color: 'var(--pixel-ink)',
                           lineHeight: 1.4,
                           transition: 'color 0.15s ease',
@@ -554,7 +554,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <span
                         style={{
                           fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 13,
+                          fontSize: 16,
                           color: 'rgba(179,68,108,0.65)',
                           whiteSpace: 'nowrap',
                           flexShrink: 0,
@@ -568,7 +568,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <p
                         style={{
                           marginTop: 6,
-                          fontSize: 13,
+                          fontSize: 15,
                           color: 'var(--pixel-ink)',
                           opacity: 0.55,
                           lineHeight: 1.65,
@@ -583,7 +583,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                         marginTop: 6,
                         display: 'inline-block',
                         fontFamily: 'var(--font-pixel), monospace',
-                        fontSize: 14,
+                        fontSize: 18,
                         color: '#B3446C',
                         letterSpacing: '0.04em',
                       }}

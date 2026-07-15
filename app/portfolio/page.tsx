@@ -81,12 +81,13 @@ export default function PortfolioPage() {
                   onClick={() => setActiveFilter(f.id as 'all' | CategoryId)}
                   aria-pressed={isActive}
                   className={[
-                    'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200',
+                    'rounded-full px-4 py-1.5 font-pixel font-pixel-xs transition-all duration-200',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B3446C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0809]',
                     isActive
                       ? 'bg-[#B3446C] text-pink-100 shadow-sm'
                       : 'bg-pink-950/50 text-pink-300/60 ring-1 ring-pink-900/40 hover:bg-pink-900/40 hover:text-pink-200/80',
                   ].join(' ')}
+                  style={{ fontFamily: 'var(--font-pixel), monospace' }}
                 >
                   {f.label}
                 </button>
