@@ -44,7 +44,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) notFound()
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#1e1015] text-pink-100">
+    <main className="relative min-h-screen overflow-hidden bg-[#0a0809] text-pink-100">
       {/* Aurora background — same as homepage */}
       <div className="aurora">
         <div className="aurora-wrap">

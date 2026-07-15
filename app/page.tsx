@@ -57,7 +57,7 @@ export default function Page() {
       : projects.filter((p) => p.categories.includes(activeFilter));
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#1e1015] text-pink-100">
+    <main className="relative min-h-screen overflow-hidden bg-[#0a0809] text-pink-100">
       {/* Full-screen animated aurora, behind everything */}
       <div className="aurora">
         <div className="aurora-wrap">
