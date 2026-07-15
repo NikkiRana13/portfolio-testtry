@@ -31,14 +31,27 @@ export type Project = {
   shortDescription?: string
   coverImage?: string
   images?: string[]
+
+  // ── Sidebar metadata ─────────────────────────────────────────────────────
+  // These appear in the "At a glance" sidebar on the project detail page.
+  // All are optional — sections are hidden when a field is absent.
+  projectType?: string   // e.g. 'Internship', 'Personal Project', 'Hackathon'
+  timeline?: string      // e.g. 'Sep 2023 – Apr 2024' — displayed as-is
+  organization?: string  // company, school, or client the project was built for
+  roleTitle?: string     // short role for the sidebar (vs. the long-form `role` section)
+  team?: string[]        // collaborators shown as a bullet list
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // ── Case study content ───────────────────────────────────────────────────
   overview?: string
   problem?: string
-  role?: string
+  role?: string     // long-form: paragraph describing what you did
   process?: string
   tools?: string[]
   results?: string
   learnings?: string
   links?: ProjectLink[]
+
   // One or more CategoryId values. A project with no categories will only
   // appear under "All".
   categories: CategoryId[]
@@ -56,6 +69,13 @@ export const projects: Project[] = [
       'Scaled a cross-campus tournament; built ops workflows, sponsorship pipeline, and event tooling.',
     categories: ['extracurriculars', 'product'],
     featured: true,
+    projectType:  'Extracurricular',
+    timeline:     '2023 – 2024',
+    organization: 'Canadian Tech Programming Competition',
+    roleTitle:    'Sponsorship Lead & Operations',
+    team: [
+      '[Add collaborator names here]',
+    ],
     overview:
       'The Canadian Tech Programming Competition (CTPC) is a national, student-run coding tournament that brought together hundreds of participants from universities across Canada. I was involved in operations, sponsorships, and product — helping scale the event from a single campus to a multi-school initiative.',
     role:
@@ -80,6 +100,10 @@ export const projects: Project[] = [
       'Rapid studies on reach, visual angle, and interface flows; turned findings into design requirements.',
     categories: ['product'],
     featured: true,
+    projectType:  'Course Project',
+    timeline:     '[Add your term here — e.g. Winter 2025]',
+    organization: 'University of Waterloo',
+    roleTitle:    'Sole Researcher & Designer',
     overview:
       'A series of mini research studies conducted as part of my Systems Design Engineering coursework in human factors. Each study applied ergonomics and usability principles to real interface or physical design problems.',
     problem:
@@ -105,6 +129,9 @@ export const projects: Project[] = [
     shortDescription:
       "A defense of Vim's longevity: efficiency, customizability, and a thriving community.",
     categories: ['fun'],
+    projectType: 'Personal Project',
+    timeline:    '[Add when you wrote it]',
+    roleTitle:   'Author',
     overview:
       "A long-form essay arguing that Vim's enduring popularity is not nostalgia but a rational response to genuine ergonomic and efficiency advantages.",
     role: 'Sole author. Researched, outlined, and wrote the full piece.',
@@ -122,6 +149,9 @@ export const projects: Project[] = [
     shortDescription:
       'Personal site with MDX blog, dark pink theme, and a filterable project grid.',
     categories: ['software', 'fun'],
+    projectType: 'Personal Project',
+    timeline:    '2024 – Present',
+    roleTitle:   'Designer & Developer',
     overview:
       'This site — built to showcase my work, host my blog, and serve as a living document of my interests and projects. Designed and developed from scratch.',
     role: 'Sole designer and developer.',
