@@ -1,8 +1,8 @@
-‘use client’;
-import { useEffect, useRef, useState } from ‘react’;
-import Link from ‘next/link’;
-import Image from ‘next/image’;
-import { projects } from ‘app/projects/data’;
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { projects } from 'app/projects/data';
 
 /** Subtle reveal on scroll */
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -73,16 +73,16 @@ export default function Page() {
           <header className="mb-8">
             <h2 className="text-3xl font-semibold tracking-tight">My Portfolio</h2>
             <p className="mt-3 max-w-2xl text-violet-200/85">
-              I’m Nikki Rana, born and raised in Cambridge, now studying Systems
+              I'm Nikki Rana, born and raised in Cambridge, now studying Systems
               Design Engineering at the University of Waterloo. I focus on human
               factors—the intersection of product, design, and how people actually
               experience tech. I like the tiny details that make things easier and
               the bigger picture of how design shapes lives.
             </p>
             <p className="mt-3 max-w-2xl text-violet-200/85">
-              Outside of school I’ve organized coding competitions, mentored across
-              programs, joined panels, and when I’m not doing something vaguely
-              productive, I’m probably annoying my older siblings or cooking.
+              Outside of school I've organized coding competitions, mentored across
+              programs, joined panels, and when I'm not doing something vaguely
+              productive, I'm probably annoying my older siblings or cooking.
             </p>
           </header>
 
