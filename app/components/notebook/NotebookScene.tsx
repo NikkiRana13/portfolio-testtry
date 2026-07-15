@@ -22,8 +22,8 @@ function PenSVG({ wiggling }: { wiggling: boolean }) {
   return (
     <svg
       viewBox="0 0 84 14"
-      width="84"
-      height="14"
+      width="100%"
+      height="100%"
       aria-hidden="true"
       style={{
         imageRendering: 'pixelated',
@@ -194,6 +194,8 @@ export function NotebookScene({ posts }: Props) {
               <div
                 aria-hidden="true"
                 style={{
+                  width: 'clamp(60px, 10vw, 120px)',
+                  aspectRatio: '84 / 14',
                   transform: 'rotate(-8deg)',
                   transformOrigin: 'right center',
                   transition: 'transform 0.3s ease',
@@ -201,6 +203,7 @@ export function NotebookScene({ posts }: Props) {
                   alignSelf: 'flex-end',
                   marginRight: 24,
                   marginTop: -8,
+                  flexShrink: 0,
                 }}
               >
                 <PenSVG wiggling={penWiggle} />
