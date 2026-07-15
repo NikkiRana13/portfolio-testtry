@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { projects } from 'app/projects/data';
+import { projects, FILTERS } from 'app/projects/data';
+import type { CategoryId } from 'app/projects/data';
 
 /** Subtle reveal on scroll */
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -14,7 +15,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
     if (!el) return;
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && (setShown(true), obs.disconnect())),
-      { threshold: 0.15, rootMargin: '0px 0px -80px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -36,6 +37,8 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 export default function Page() {
   const [displayText, setDisplayText] = useState('');
+  const [activeFilter, setActiveFilter] = useState<'all' | CategoryId>('all');
+
   const message = "Hey, I'm Nikki, what's up?";
 
   useEffect(() => {
@@ -47,6 +50,11 @@ export default function Page() {
     }, 80);
     return () => clearInterval(id);
   }, []);
+
+  const filteredProjects =
+    activeFilter === 'all'
+      ? projects
+      : projects.filter((p) => p.categories.includes(activeFilter));
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#1e1015] text-pink-100">
@@ -61,8 +69,8 @@ export default function Page() {
 
       {/* Content */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        {/* Soft container that blends into bg */}
         <section className="glass glass-ring p-6 md:p-10">
+
           {/* Typing headline */}
           <h1 className="mb-6 text-4xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
             {displayText}
@@ -88,53 +96,94 @@ export default function Page() {
 
           {/* Projects */}
           <section className="mt-4">
-            <h3 className="mb-4 text-lg font-medium text-pink-200/90">Projects</h3>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-              {projects.map((p, idx) => (
-                <Reveal key={p.slug} delay={idx * 80}>
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="group block rounded-2xl p-5 card ring-1 ring-white/10 backdrop-blur-[2px] transition-all hover:ring-white/20 hover:brightness-110"
-                  >
-                    {/* Cover image or placeholder */}
-                    <div className="relative mb-4 overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
-                      {p.coverImage ? (
-                        <Image
-                          src={p.coverImage}
-                          alt={p.title}
-                          width={600}
-                          height={192}
-                          className="h-48 w-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-48 items-center justify-center text-sm text-neutral-500">
-                          (Project image here)
-                        </div>
-                      )}
-                    </div>
-
-                    <h4 className="text-xl font-semibold tracking-tight text-pink-100">
-                      {p.title}
-                    </h4>
-
-                    {p.subtitle && (
-                      <p className="mt-1 text-sm text-pink-300/85">{p.subtitle}</p>
-                    )}
-
-                    {p.shortDescription && (
-                      <p className="mt-3 text-sm leading-relaxed text-pink-100/80">
-                        {p.shortDescription}
-                      </p>
-                    )}
-
-                    <span className="mt-4 inline-block text-xs text-pink-400/60 transition-colors group-hover:text-pink-300/80">
-                      View project →
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
+            <div className="mb-5 flex items-baseline justify-between gap-4 flex-wrap">
+              <h3 className="text-lg font-medium text-pink-200/90">Projects</h3>
             </div>
+
+            {/* Filter pills */}
+            <div
+              role="group"
+              aria-label="Filter projects by category"
+              className="mb-6 flex flex-wrap gap-2"
+            >
+              {FILTERS.map((f) => {
+                const isActive = activeFilter === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setActiveFilter(f.id as 'all' | CategoryId)}
+                    aria-pressed={isActive}
+                    className={[
+                      'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B3446C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1015]',
+                      isActive
+                        ? 'bg-[#B3446C] text-pink-100 shadow-sm'
+                        : 'bg-pink-950/50 text-pink-300/60 ring-1 ring-pink-900/40 hover:bg-pink-900/40 hover:text-pink-200/80',
+                    ].join(' ')}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Grid or empty state */}
+            {filteredProjects.length === 0 ? (
+              <p className="py-10 text-center text-sm text-pink-300/50">
+                No projects in this category yet — check back soon.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+                {filteredProjects.map((p, idx) => (
+                  // Key includes activeFilter so Reveal remounts on filter change,
+                  // re-triggering the entrance animation for newly visible cards.
+                  <Reveal key={`${p.slug}-${activeFilter}`} delay={idx * 80}>
+                    <Link
+                      href={`/projects/${p.slug}`}
+                      className="group block rounded-2xl p-5 card ring-1 ring-white/10 backdrop-blur-[2px] transition-all hover:ring-white/20 hover:brightness-110"
+                    >
+                      {/* Cover image or placeholder */}
+                      <div className="relative mb-4 overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
+                        {p.coverImage ? (
+                          <Image
+                            src={p.coverImage}
+                            alt={p.title}
+                            width={600}
+                            height={192}
+                            className="h-48 w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-48 items-center justify-center text-sm text-neutral-500">
+                            (Project image here)
+                          </div>
+                        )}
+                      </div>
+
+                      <h4 className="text-xl font-semibold tracking-tight text-pink-100">
+                        {p.title}
+                      </h4>
+
+                      {p.subtitle && (
+                        <p className="mt-1 text-sm text-pink-300/85">{p.subtitle}</p>
+                      )}
+
+                      {p.shortDescription && (
+                        <p className="mt-3 text-sm leading-relaxed text-pink-100/80">
+                          {p.shortDescription}
+                        </p>
+                      )}
+
+                      <span className="mt-4 inline-block text-xs text-pink-400/60 transition-colors group-hover:text-pink-300/80">
+                        View project →
+                      </span>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            )}
           </section>
+
         </section>
       </div>
     </main>

@@ -3,6 +3,27 @@ export type ProjectLink = {
   href: string
 }
 
+// ─── Categories ────────────────────────────────────────────────────────────────
+// Internal slugs used in project data. Add new values here to create a
+// new category; then register it in FILTERS below.
+export type CategoryId = 'product' | 'software' | 'extracurriculars' | 'fun'
+
+export type Filter = {
+  id: 'all' | CategoryId
+  label: string
+}
+
+// Central filter list — edit labels here, add/remove entries here.
+// "all" must stay first and is handled automatically by the filter logic.
+export const FILTERS: Filter[] = [
+  { id: 'all',            label: 'All'                  },
+  { id: 'product',        label: 'Product'               },
+  { id: 'software',       label: 'Software Engineering'  },
+  { id: 'extracurriculars', label: 'Extracurriculars'    },
+  { id: 'fun',            label: 'Fun Projects'          },
+]
+
+// ─── Project type ──────────────────────────────────────────────────────────────
 export type Project = {
   slug: string
   title: string
@@ -18,8 +39,12 @@ export type Project = {
   results?: string
   learnings?: string
   links?: ProjectLink[]
+  // One or more CategoryId values. A project with no categories will only
+  // appear under "All".
+  categories: CategoryId[]
 }
 
+// ─── Project data ──────────────────────────────────────────────────────────────
 export const projects: Project[] = [
   {
     slug: 'ctpc-coding-tournament',
@@ -27,6 +52,7 @@ export const projects: Project[] = [
     subtitle: 'National student-run event · Ops, sponsorships, product',
     shortDescription:
       'Scaled a cross-campus tournament; built ops workflows, sponsorship pipeline, and event tooling.',
+    categories: ['extracurriculars', 'product'],
     overview:
       'The Canadian Tech Programming Competition (CTPC) is a national, student-run coding tournament that brought together hundreds of participants from universities across Canada. I was involved in operations, sponsorships, and product — helping scale the event from a single campus to a multi-school initiative.',
     role:
@@ -49,6 +75,7 @@ export const projects: Project[] = [
     subtitle: 'Usability studies · Task analysis · UI prototyping',
     shortDescription:
       'Rapid studies on reach, visual angle, and interface flows; turned findings into design requirements.',
+    categories: ['product'],
     overview:
       'A series of mini research studies conducted as part of my Systems Design Engineering coursework in human factors. Each study applied ergonomics and usability principles to real interface or physical design problems.',
     problem:
@@ -73,6 +100,7 @@ export const projects: Project[] = [
     subtitle: 'Writing · Developer tooling',
     shortDescription:
       "A defense of Vim's longevity: efficiency, customizability, and a thriving community.",
+    categories: ['fun'],
     overview:
       "A long-form essay arguing that Vim's enduring popularity is not nostalgia but a rational response to genuine ergonomic and efficiency advantages.",
     role: 'Sole author. Researched, outlined, and wrote the full piece.',
@@ -88,12 +116,13 @@ export const projects: Project[] = [
     title: 'Portfolio Site',
     subtitle: 'Next.js · MDX · Tailwind',
     shortDescription:
-      'Personal site with MDX blog, lilac/black theme, and a simple project grid.',
+      'Personal site with MDX blog, dark pink theme, and a filterable project grid.',
+    categories: ['software', 'fun'],
     overview:
       'This site — built to showcase my work, host my blog, and serve as a living document of my interests and projects. Designed and developed from scratch.',
     role: 'Sole designer and developer.',
     process:
-      'Started from a minimal Next.js starter, then custom-built the aurora background, glass card system, and dark lilac theme. Blog is powered by MDX files.',
+      'Started from a minimal Next.js starter, then custom-built the aurora background, glass card system, and dark pink theme. Blog is powered by MDX files.',
     tools: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MDX', 'Vercel'],
     results: 'Live at this URL. Fully responsive and fast.',
     learnings:
