@@ -57,7 +57,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
       <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Back button */}
         <Link
-          href="/"
+          href="/portfolio"
           className="group mb-8 inline-flex items-center gap-1.5 text-sm text-pink-300/60 transition-colors hover:text-pink-100"
         >
           <svg
@@ -79,9 +79,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </Link>
 
         <div className="glass glass-ring p-6 md:p-10">
-          {/* Cover image */}
-          {project.coverImage && (
-            <div className="relative mb-8 overflow-hidden rounded-xl ring-1 ring-white/10">
+          {/* Cover image — always shown; drop an image at public/images/projects/<slug>-cover.jpg
+              and set coverImage in data.ts to display it */}
+          <div className="relative mb-8 overflow-hidden rounded-xl ring-1 ring-white/10">
+            {project.coverImage ? (
               <Image
                 src={project.coverImage}
                 alt={`${project.title} cover`}
@@ -90,8 +91,17 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 className="w-full object-cover"
                 priority
               />
-            </div>
-          )}
+            ) : (
+              <div className="flex h-52 w-full items-center justify-center bg-neutral-900/60 text-center text-xs text-neutral-500 leading-relaxed p-6">
+                Cover image placeholder
+                <br />
+                <span className="opacity-60 mt-1 block">
+                  Set <code className="font-mono">coverImage</code> in{' '}
+                  <code className="font-mono">app/projects/data.ts</code> for this project
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* Title block */}
           <div className="mb-6">
@@ -195,30 +205,49 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             )}
           </div>
 
-          {/* Additional images / gallery */}
-          {project.images && project.images.length > 0 && (
-            <div className="mt-10 border-t border-pink-900/40 pt-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
-                Gallery
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {project.images.map((src, i) => (
-                  <div
-                    key={i}
-                    className="overflow-hidden rounded-xl ring-1 ring-white/10"
-                  >
-                    <Image
-                      src={src}
-                      alt={`${project.title} screenshot ${i + 1}`}
-                      width={600}
-                      height={400}
-                      className="w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+          {/* Gallery — always shown. Add image paths to the `images` array in data.ts
+              to populate slots. Placeholders appear for any unfilled slots. */}
+          <div className="mt-10 border-t border-pink-900/40 pt-8">
+            <h2 className="mb-1 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
+              Gallery
+            </h2>
+            <p className="mb-5 text-xs text-pink-300/40">
+              Add image paths to the <code className="font-mono text-pink-300/50">images</code> array
+              in <code className="font-mono text-pink-300/50">app/projects/data.ts</code> for this project.
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {/* Real images */}
+              {(project.images ?? []).map((src, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-xl ring-1 ring-white/10"
+                >
+                  <Image
+                    src={src}
+                    alt={`${project.title} image ${i + 1}`}
+                    width={600}
+                    height={400}
+                    className="w-full object-cover"
+                  />
+                </div>
+              ))}
+              {/* Placeholder slots — always show at least 2 when no images are set */}
+              {Array.from({
+                length: Math.max(0, 2 - (project.images?.length ?? 0)),
+              }).map((_, i) => (
+                <div
+                  key={`placeholder-${i}`}
+                  className="flex aspect-video items-center justify-center rounded-xl bg-neutral-900/60 ring-1 ring-white/10 text-xs text-neutral-500 text-center p-4 leading-relaxed"
+                >
+                  Image {(project.images?.length ?? 0) + i + 1} placeholder
+                  <br />
+                  <span className="opacity-60 mt-1 block">
+                    Add a path to <code className="font-mono">images[]</code> in data.ts
+                  </span>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </main>
