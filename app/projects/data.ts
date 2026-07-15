@@ -42,6 +42,8 @@ export type Project = {
   // One or more CategoryId values. A project with no categories will only
   // appear under "All".
   categories: CategoryId[]
+  // Set to true to show this project in the Featured Work section on the homepage.
+  featured?: boolean
 }
 
 // ─── Project data ──────────────────────────────────────────────────────────────
@@ -53,6 +55,7 @@ export const projects: Project[] = [
     shortDescription:
       'Scaled a cross-campus tournament; built ops workflows, sponsorship pipeline, and event tooling.',
     categories: ['extracurriculars', 'product'],
+    featured: true,
     overview:
       'The Canadian Tech Programming Competition (CTPC) is a national, student-run coding tournament that brought together hundreds of participants from universities across Canada. I was involved in operations, sponsorships, and product — helping scale the event from a single campus to a multi-school initiative.',
     role:
@@ -76,6 +79,7 @@ export const projects: Project[] = [
     shortDescription:
       'Rapid studies on reach, visual angle, and interface flows; turned findings into design requirements.',
     categories: ['product'],
+    featured: true,
     overview:
       'A series of mini research studies conducted as part of my Systems Design Engineering coursework in human factors. Each study applied ergonomics and usability principles to real interface or physical design problems.',
     problem:

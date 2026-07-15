@@ -1,64 +1,49 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { projects, FILTERS } from 'app/projects/data';
-import type { CategoryId } from 'app/projects/data';
+'use client'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { projects } from 'app/projects/data'
+import { timeline } from 'app/content/timeline'
+import { interests } from 'app/content/interests'
+import { heroLinks, gallery } from 'app/content/about'
+import { Reveal } from 'app/components/reveal'
+import { ProjectCard } from 'app/components/project-card'
 
-/** Subtle reveal on scroll */
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [shown, setShown] = useState(false);
+// ─── Personal facts ────────────────────────────────────────────────────────────
+// Edit these directly — they appear as a short list in the About Me section.
+const facts = [
+  '[Fact 1 — e.g. Born and raised in Cambridge, ON]',
+  '[Fact 2 — e.g. Something you love outside of school]',
+  '[Fact 3 — e.g. A quirk or fun detail about you]',
+  '[Fact 4 — e.g. Something you\'re learning or excited about]',
+]
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && (setShown(true), obs.disconnect())),
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
-      className={[
-        'transform-gpu transition-all duration-500 ease-out will-change-[opacity,transform]',
-        shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3',
-      ].join(' ')}
-    >
-      {children}
-    </div>
-  );
-}
+// ─── Bio paragraphs ────────────────────────────────────────────────────────────
+// Replace each string with a paragraph of your own writing.
+const bio = [
+  '[PLACEHOLDER — First paragraph. Introduce yourself: where you\'re from, what you study, and what draws you to it. Keep it honest and specific — generic bios are forgettable.]',
+  '[PLACEHOLDER — Second paragraph. Get a little more personal. What drives you? What do you care about beyond grades and internships? What makes you, you?]',
+]
 
 export default function Page() {
-  const [displayText, setDisplayText] = useState('');
-  const [activeFilter, setActiveFilter] = useState<'all' | CategoryId>('all');
-
-  const message = "Hey, I'm Nikki, what's up?";
+  const [displayText, setDisplayText] = useState('')
+  const message = "Hey, I'm Nikki. What's up?"
 
   useEffect(() => {
-    let i = 0;
+    let i = 0
     const id = setInterval(() => {
-      setDisplayText(message.slice(0, i + 1));
-      i++;
-      if (i === message.length) clearInterval(id);
-    }, 80);
-    return () => clearInterval(id);
-  }, []);
+      setDisplayText(message.slice(0, i + 1))
+      i++
+      if (i === message.length) clearInterval(id)
+    }, 80)
+    return () => clearInterval(id)
+  }, [])
 
-  const filteredProjects =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((p) => p.categories.includes(activeFilter));
+  const featuredProjects = projects.filter((p) => p.featured)
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0a0809] text-pink-100">
-      {/* Full-screen animated aurora, behind everything */}
+      {/* Aurora background */}
       <div className="aurora">
         <div className="aurora-wrap">
           <div className="aurora-band aurora-1" />
@@ -67,125 +52,263 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+
+        {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <section className="glass glass-ring p-6 md:p-10">
+          <div className="flex flex-col-reverse lg:flex-row items-start gap-8 lg:gap-14">
 
-          {/* Typing headline */}
-          <h1 className="mb-6 text-4xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
-            {displayText}
-            <span className="animate-pulse">|</span>
-          </h1>
-
-          {/* Intro */}
-          <header className="mb-8">
-            <h2 className="text-3xl font-semibold tracking-tight">My Portfolio</h2>
-            <p className="mt-3 max-w-2xl text-pink-200/85">
-              I'm Nikki Rana, born and raised in Cambridge, now studying Systems
-              Design Engineering at the University of Waterloo. I focus on human
-              factors—the intersection of product, design, and how people actually
-              experience tech. I like the tiny details that make things easier and
-              the bigger picture of how design shapes lives.
-            </p>
-            <p className="mt-3 max-w-2xl text-pink-200/85">
-              Outside of school I've organized coding competitions, mentored across
-              programs, joined panels, and when I'm not doing something vaguely
-              productive, I'm probably annoying my older siblings or cooking.
-            </p>
-          </header>
-
-          {/* Projects */}
-          <section className="mt-4">
-            <div className="mb-5 flex items-baseline justify-between gap-4 flex-wrap">
-              <h3 className="text-lg font-medium text-pink-200/90">Projects</h3>
+            {/* Profile photo */}
+            <div className="w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 self-start rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
+              {/* ↓ Replace with your photo: place file at public/images/profile.jpg
+                  then swap this div for:
+                  <Image src="/images/profile.jpg" alt="Nikki Rana" fill className="object-cover" />
+              */}
+              <div className="w-full h-full flex items-center justify-center text-xs text-neutral-500 text-center p-4 leading-relaxed">
+                Profile photo
+                <br />
+                <span className="opacity-60">/public/images/profile.jpg</span>
+              </div>
             </div>
 
-            {/* Filter pills */}
-            <div
-              role="group"
-              aria-label="Filter projects by category"
-              className="mb-6 flex flex-wrap gap-2"
-            >
-              {FILTERS.map((f) => {
-                const isActive = activeFilter === f.id;
-                return (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => setActiveFilter(f.id as 'all' | CategoryId)}
-                    aria-pressed={isActive}
-                    className={[
-                      'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B3446C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1e1015]',
-                      isActive
-                        ? 'bg-[#B3446C] text-pink-100 shadow-sm'
-                        : 'bg-pink-950/50 text-pink-300/60 ring-1 ring-pink-900/40 hover:bg-pink-900/40 hover:text-pink-200/80',
-                    ].join(' ')}
-                  >
-                    {f.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Grid or empty state */}
-            {filteredProjects.length === 0 ? (
-              <p className="py-10 text-center text-sm text-pink-300/50">
-                No projects in this category yet — check back soon.
+            {/* Text */}
+            <div className="flex-1 min-w-0">
+              <h1 className="mb-4 text-4xl sm:text-5xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
+                {displayText}
+                <span className="animate-pulse">|</span>
+              </h1>
+              <p className="max-w-xl text-pink-200/80 leading-relaxed text-lg">
+                {/* Replace with your own short intro — 1–2 sentences max. */}
+                I'm a Systems Design Engineering student at the University of Waterloo,
+                interested in the space where product, design, and people meet.
               </p>
-            ) : (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-                {filteredProjects.map((p, idx) => (
-                  // Key includes activeFilter so Reveal remounts on filter change,
-                  // re-triggering the entrance animation for newly visible cards.
-                  <Reveal key={`${p.slug}-${activeFilter}`} delay={idx * 80}>
-                    <Link
-                      href={`/projects/${p.slug}`}
-                      className="group block rounded-2xl p-5 card ring-1 ring-white/10 backdrop-blur-[2px] transition-all hover:ring-white/20 hover:brightness-110"
+              <div className="mt-6 flex flex-wrap gap-3">
+                {heroLinks.map((link) => (
+                  link.external ? (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={
+                        link.primary
+                          ? 'rounded-full bg-[#B3446C] px-5 py-2 text-sm font-medium text-pink-100 shadow-sm transition-all hover:brightness-110'
+                          : 'rounded-full px-5 py-2 text-sm font-medium text-pink-300/70 ring-1 ring-pink-900/50 transition-all hover:bg-pink-950/40 hover:text-pink-200/80'
+                      }
                     >
-                      {/* Cover image or placeholder */}
-                      <div className="relative mb-4 overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
-                        {p.coverImage ? (
-                          <Image
-                            src={p.coverImage}
-                            alt={p.title}
-                            width={600}
-                            height={192}
-                            className="h-48 w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-48 items-center justify-center text-sm text-neutral-500">
-                            (Project image here)
-                          </div>
-                        )}
-                      </div>
-
-                      <h4 className="text-xl font-semibold tracking-tight text-pink-100">
-                        {p.title}
-                      </h4>
-
-                      {p.subtitle && (
-                        <p className="mt-1 text-sm text-pink-300/85">{p.subtitle}</p>
-                      )}
-
-                      {p.shortDescription && (
-                        <p className="mt-3 text-sm leading-relaxed text-pink-100/80">
-                          {p.shortDescription}
-                        </p>
-                      )}
-
-                      <span className="mt-4 inline-block text-xs text-pink-400/60 transition-colors group-hover:text-pink-300/80">
-                        View project →
-                      </span>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={
+                        link.primary
+                          ? 'rounded-full bg-[#B3446C] px-5 py-2 text-sm font-medium text-pink-100 shadow-sm transition-all hover:brightness-110'
+                          : 'rounded-full px-5 py-2 text-sm font-medium text-pink-300/70 ring-1 ring-pink-900/50 transition-all hover:bg-pink-950/40 hover:text-pink-200/80'
+                      }
+                    >
+                      {link.label}
                     </Link>
+                  )
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── About Me ─────────────────────────────────────────────────────── */}
+        <Reveal>
+          <section className="glass glass-ring p-6 md:p-10">
+            <h2 className="text-2xl font-semibold tracking-tight mb-8">About Me</h2>
+
+            <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
+              {/* About photo */}
+              <div className="md:w-56 lg:w-64 flex-shrink-0">
+                <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
+                  {/* ↓ Replace with your about photo:
+                      <Image src="/images/about.jpg" alt="Nikki" fill className="object-cover" />
+                  */}
+                  <div className="w-full h-full flex items-center justify-center text-xs text-neutral-500 text-center p-4 leading-relaxed">
+                    About photo
+                    <br />
+                    <span className="opacity-60">/public/images/about.jpg</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bio + facts */}
+              <div className="flex-1 min-w-0">
+                <div className="space-y-4">
+                  {bio.map((paragraph, i) => (
+                    <p key={i} className="text-pink-200/80 leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+
+                <div className="mt-8 border-t border-pink-900/30 pt-6">
+                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
+                    A few things about me
+                  </h3>
+                  <ul className="space-y-2 text-sm text-pink-200/70">
+                    {facts.map((fact, i) => (
+                      <li key={i} className="flex gap-2">
+                        <span className="text-[#B3446C] select-none">–</span>
+                        {fact}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Photo gallery */}
+            <div className="mt-10 border-t border-pink-900/30 pt-8">
+              <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
+                Moments
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {gallery.map((item, i) => (
+                  <div key={i}>
+                    <div className="aspect-square overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
+                      {item.src ? (
+                        <Image
+                          src={item.src}
+                          alt={item.caption || `Photo ${i + 1}`}
+                          width={400}
+                          height={400}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-xs text-neutral-500 text-center p-3 leading-relaxed">
+                          Photo {i + 1}
+                          <br />
+                          <span className="opacity-60">Set src in about.ts</span>
+                        </div>
+                      )}
+                    </div>
+                    {item.caption && (
+                      <p className="mt-1.5 text-xs text-pink-300/50 text-center">
+                        {item.caption}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </section>
+        </Reveal>
+
+        {/* ── Interests ────────────────────────────────────────────────────── */}
+        <Reveal>
+          <section className="glass glass-ring p-6 md:p-10">
+            <h2 className="text-2xl font-semibold tracking-tight mb-6">What I'm Into</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {interests.map((interest, i) => (
+                <div
+                  key={i}
+                  className="card rounded-xl p-4 ring-1 ring-white/8"
+                >
+                  <p className="font-medium text-pink-100">{interest.label}</p>
+                  <p className="mt-1 text-sm text-pink-300/55 leading-relaxed">
+                    {interest.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </Reveal>
+
+        {/* ── Timeline ─────────────────────────────────────────────────────── */}
+        <Reveal>
+          <section className="glass glass-ring p-6 md:p-10">
+            <h2 className="text-2xl font-semibold tracking-tight mb-8">My Story</h2>
+
+            <div className="relative pl-7 sm:pl-10">
+              {/* Vertical connecting line */}
+              <div
+                className="absolute left-[9px] sm:left-[11px] top-1 bottom-4 w-px bg-pink-900/50"
+                aria-hidden="true"
+              />
+
+              <div className="space-y-7">
+                {timeline.map((entry, i) => {
+                  const dateLabel =
+                    !entry.endYear
+                      ? `${entry.startYear} – present`
+                      : entry.startYear === entry.endYear
+                        ? entry.startYear
+                        : `${entry.startYear} – ${entry.endYear}`
+
+                  return (
+                    <Reveal key={i} delay={i * 60}>
+                      <div className="relative">
+                        {/* Dot */}
+                        <div
+                          className="absolute -left-7 sm:-left-10 top-1.5 h-[10px] w-[10px] rounded-full bg-[#B3446C] ring-[3px] ring-[#B3446C]/20"
+                          aria-hidden="true"
+                        />
+                        {/* Date */}
+                        <p className="mb-1.5 text-xs font-medium tabular-nums text-pink-400/65">
+                          {dateLabel}
+                        </p>
+                        {/* Card */}
+                        <div className="card rounded-xl p-4 ring-1 ring-white/8">
+                          <p className="font-semibold text-pink-100 leading-snug">
+                            {entry.title}
+                          </p>
+                          {entry.organization && (
+                            <p className="mt-0.5 text-sm text-pink-300/65">
+                              {entry.organization}
+                            </p>
+                          )}
+                          <p className="mt-2 text-sm text-pink-100/65 leading-relaxed">
+                            {entry.description}
+                          </p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        {/* ── Featured Work ─────────────────────────────────────────────────── */}
+        {featuredProjects.length > 0 && (
+          <Reveal>
+            <section className="glass glass-ring p-6 md:p-10">
+              <div className="mb-7 flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-2xl font-semibold tracking-tight">Featured Work</h2>
+                  <p className="mt-1 text-sm text-pink-300/55">
+                    A few things I've built and led.
+                  </p>
+                </div>
+                <Link
+                  href="/portfolio"
+                  className="text-sm text-pink-300/65 transition-colors hover:text-pink-100"
+                >
+                  View full portfolio →
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {featuredProjects.map((p, idx) => (
+                  <Reveal key={p.slug} delay={idx * 80}>
+                    <ProjectCard project={p} />
                   </Reveal>
                 ))}
               </div>
-            )}
-          </section>
+            </section>
+          </Reveal>
+        )}
 
-        </section>
       </div>
     </main>
-  );
+  )
 }
