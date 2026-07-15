@@ -248,8 +248,8 @@ function NotebookClosed() {
     <div
       style={{
         display: 'flex',
-        width: 'clamp(280px, 36vw, 420px)',
-        height: 'clamp(360px, calc(36vw * 1.32), 555px)',
+        width: 'clamp(320px, 46vw, 580px)',
+        height: 'clamp(422px, calc(46vw * 1.32), 766px)',
         background: 'var(--pixel-paper)',
         border: '2px solid rgba(179,68,108,0.6)',
         boxShadow: '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)',
@@ -320,9 +320,9 @@ function NotebookClosed() {
           <h2
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 14,
+              fontSize: 22,
               color: '#fce7f3',
-              lineHeight: 1.7,
+              lineHeight: 1.5,
               margin: 0,
             }}
           >
@@ -458,9 +458,9 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           <h2
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 11,
+              fontSize: 18,
               color: 'var(--pixel-ink)',
-              lineHeight: 1.7,
+              lineHeight: 1.5,
               margin: 0,
             }}
           >
@@ -539,9 +539,9 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <span
                         style={{
                           fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 9,
+                          fontSize: 14,
                           color: 'var(--pixel-ink)',
-                          lineHeight: 1.7,
+                          lineHeight: 1.5,
                           transition: 'color 0.15s ease',
                         }}
                         className="post-title"

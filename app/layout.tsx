@@ -2,15 +2,13 @@ import './global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
-import { Pixelify_Sans } from 'next/font/google'
+import { VT323 } from 'next/font/google'
 import { Navbar } from './components/nav'
 
-// Pixel display font — used for hero greeting, section labels, game/terminal UI.
-// Pixelify Sans is lighter and less chunky than Press Start 2P while keeping
-// the pixel aesthetic. Swap this import to try other pixel fonts.
+// Tall narrow pixel font — better vertical proportion than Press Start 2P or Pixelify Sans.
 // Body copy stays in GeistSans for readability.
-const pixelFont = Pixelify_Sans({
-  weight:   ['400', '500'],
+const pixelFont = VT323({
+  weight:   '400',
   subsets:  ['latin'],
   variable: '--font-pixel',
   display:  'swap',
