@@ -159,7 +159,10 @@ export default function Page() {
         {/* ── Timeline ─────────────────────────────────────────────────────── */}
         <Reveal>
           <section className="glass glass-ring p-6 md:p-10">
-            <h2 className="text-2xl font-semibold tracking-tight mb-8">My Story</h2>
+            <h2 className="font-pixel font-pixel-lg mb-8"
+                style={{ fontFamily: 'var(--font-pixel), monospace' }}>
+              // my story
+            </h2>
 
             <div className="relative pl-7 sm:pl-10">
               {/* Vertical connecting line */}
@@ -218,8 +221,11 @@ export default function Page() {
             <section className="glass glass-ring p-6 md:p-10">
               <div className="mb-7 flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">Featured Work</h2>
-                  <p className="mt-1 text-sm text-pink-300/55">
+                  <h2 className="font-pixel font-pixel-lg"
+                      style={{ fontFamily: 'var(--font-pixel), monospace' }}>
+                    // featured work
+                  </h2>
+                  <p className="mt-2 text-sm text-pink-300/55">
                     A few things I've built and led.
                   </p>
                 </div>

@@ -147,7 +147,7 @@ export function NotebookScene({ posts }: Props) {
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
+      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 py-10 sm:py-16">
 
         {/* Pixel section label */}
         <p className="pixel-label mb-6" style={{ color: 'var(--pixel-accent-pink)' }}>
@@ -225,7 +225,7 @@ export function NotebookScene({ posts }: Props) {
               aria-label="Blog notebook — open"
               style={{
                 width: '100%',
-                maxWidth: 700,
+                maxWidth: 860,
                 outline: 'none',
                 animation: animating ? undefined : 'notebookOpen 0.25s ease',
               }}
@@ -248,8 +248,8 @@ function NotebookClosed() {
     <div
       style={{
         display: 'flex',
-        width: 'min(300px, 80vw)',
-        height: 'min(390px, calc(80vw * 1.3))',
+        width: 'clamp(280px, 36vw, 420px)',
+        height: 'clamp(360px, calc(36vw * 1.32), 555px)',
         background: 'var(--pixel-paper)',
         border: '2px solid rgba(179,68,108,0.6)',
         boxShadow: '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)',

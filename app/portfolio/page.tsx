@@ -29,10 +29,11 @@ export default function PortfolioPage() {
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
-              Portfolio
+            <h1 className="font-pixel font-pixel-xl drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]"
+                style={{ fontFamily: 'var(--font-pixel), monospace' }}>
+              // portfolio
             </h1>
-            <p className="mt-2 text-pink-200/70 max-w-xl">
+            <p className="mt-3 text-pink-200/70 max-w-xl">
               Things I've built, organised, researched, and shipped.
             </p>
           </div>

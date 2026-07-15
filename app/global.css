@@ -125,11 +125,13 @@ html, body {
 }
 
 /* Pre-sized variants — compose with .font-pixel */
-.font-pixel-xs  { font-size: 0.5rem;    line-height: 1.8; }  /* 8px  — decorative labels */
-.font-pixel-sm  { font-size: 0.625rem;  line-height: 1.7; }  /* 10px — section labels    */
-.font-pixel-md  { font-size: 0.75rem;   line-height: 1.6; }  /* 12px — UI headings       */
-.font-pixel-lg  { font-size: 0.875rem;  line-height: 1.5; }  /* 14px — hero / game title */
-.font-pixel-hero { font-size: clamp(0.75rem, 2.5vw, 1rem); line-height: 1.8; }
+.font-pixel-xs   { font-size: 0.5rem;                         line-height: 1.8; }  /* 8px  — decorative labels */
+.font-pixel-sm   { font-size: 0.625rem;                       line-height: 1.7; }  /* 10px — section labels    */
+.font-pixel-md   { font-size: 0.75rem;                        line-height: 1.6; }  /* 12px — UI headings       */
+.font-pixel-lg   { font-size: 0.875rem;                       line-height: 1.6; }  /* 14px — game title, section h2 */
+.font-pixel-xl   { font-size: 1rem;                           line-height: 1.7; }  /* 16px — page h1           */
+/* Hero greeting: scales from 16px on mobile up to 24px on desktop */
+.font-pixel-hero { font-size: clamp(1rem, 2vw + 0.5rem, 1.5rem); line-height: 2.0; }
 
 /* ─── PIXEL UI UTILITIES ─────────────────────────────────────────────────── */
 
