@@ -198,7 +198,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) notFound()
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0a0809] text-pink-100">
+    <main className="relative min-h-screen overflow-hidden">
       <div className="aurora">
         <div className="aurora-wrap">
           <div className="aurora-band aurora-1" />

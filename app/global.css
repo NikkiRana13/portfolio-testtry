@@ -27,8 +27,8 @@
   --sh-entity: #f59e0b;
 }
 
-/* Always dark color-scheme */
 html { color-scheme: dark; }
+html.light { color-scheme: light; }
 
 html, body {
   background: var(--bg);
@@ -213,4 +213,83 @@ table {
 /* Reduced motion: stop the drift but keep a soft static glow */
 @media (prefers-reduced-motion: reduce) {
   .aurora-1, .aurora-2, .aurora-3 { animation: none; }
+}
+
+/* ─── LIGHT MODE ─────────────────────────────────────────────────────────── */
+
+html.light {
+  --bg:      #fdf2f5;
+  --fg:      #2d0f1e;
+  --link:    #9c3060;
+  --border:  #e8c0d0;
+  --code-bg: #f9edf3;
+
+  --sh-class:       #9d174d;
+  --sh-identifier:  #2d0f1e;
+  --sh-sign:        #475569;
+  --sh-string:      #15803d;
+  --sh-keyword:     #be123c;
+  --sh-comment:     #94a3b8;
+  --sh-jsxliterals: #a21caf;
+  --sh-property:    #b45309;
+  --sh-entity:      #b45309;
+}
+
+/* Glass surfaces */
+html.light .glass {
+  background-color: rgba(255,255,255,0.70);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+html.light .card {
+  background-color: rgba(255,255,255,0.55);
+}
+html.light .card:hover {
+  background-color: rgba(255,255,255,0.85);
+}
+
+/* Aurora: subtle on light bg */
+html.light .aurora-wrap { opacity: 0.28; }
+
+/* Dark pink badge/tag backgrounds → light pink tint + dark text
+   Matches classes like bg-pink-900, bg-pink-950 (as whole words in class list) */
+html.light [class^="bg-pink-9"],
+html.light [class*=" bg-pink-9"] {
+  background-color: rgba(179,68,108,0.09);
+  color: #9c3060;
+}
+
+/* Light pink text classes → readable dark tones on light bg
+   :not exclusions prevent overriding text on elements that have explicit dark
+   backgrounds (e.g. the primary button has bg-[#B3446C] text-pink-100) */
+html.light [class*="text-pink-1"]:not([class^="bg-"]):not([class*=" bg-"]) {
+  color: var(--fg);
+}
+html.light [class*="text-pink-2"]:not([class^="bg-"]):not([class*=" bg-"]) {
+  color: rgba(45,15,30,0.80);
+}
+html.light [class*="text-pink-3"]:not([class^="bg-"]):not([class*=" bg-"]) {
+  color: rgba(45,15,30,0.58);
+}
+html.light [class*="text-pink-4"]:not([class^="bg-"]):not([class*=" bg-"]) {
+  color: rgba(45,15,30,0.44);
+}
+
+/* Hover text: stay readable in light mode */
+html.light [class*="hover:text-pink"]:not([class^="bg-"]):not([class*=" bg-"]):hover {
+  color: var(--fg);
+}
+
+/* Hover dark bg → light pink tint */
+html.light [class*="hover:bg-pink-9"]:hover,
+html.light [class*="hover:bg-pink-8"]:hover {
+  background-color: rgba(179,68,108,0.09);
+}
+
+/* Footer text */
+html.light footer {
+  color: rgba(45,15,30,0.60);
+}
+html.light footer a:hover {
+  color: var(--fg);
 }

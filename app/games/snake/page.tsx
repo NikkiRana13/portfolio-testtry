@@ -235,7 +235,7 @@ export default function SnakePage() {
 
   // ─── Render ────────────────────────────────────────────────────────────────
   return (
-    <main className="relative min-h-screen bg-[#0a0809] text-pink-100">
+    <main className="relative min-h-screen">
       <div className="aurora">
         <div className="aurora-wrap">
           <div className="aurora-band aurora-1" />

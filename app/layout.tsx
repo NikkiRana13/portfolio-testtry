@@ -47,12 +47,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cx(
-        'text-black bg-white dark:text-white dark:bg-black',
-        GeistSans.variable,
-        GeistMono.variable
-      )}
+      suppressHydrationWarning
+      className={cx(GeistSans.variable, GeistMono.variable)}
     >
+      <head>
+        {/* Runs before paint — applies saved theme class to avoid flash */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();` }} />
+      </head>
       <body className="antialiased">
         <main className="flex-auto min-w-0 flex flex-col">
           <Navbar />

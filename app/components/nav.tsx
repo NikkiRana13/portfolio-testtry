@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { ThemeToggle } from './theme-toggle'
 
 // ─── Navigation items ─────────────────────────────────────────────────────────
 // Add, remove, or reorder entries here to update the site navigation.
@@ -44,7 +45,7 @@ export function Navbar() {
           id="nav"
           aria-label="Main navigation"
         >
-          <div className="flex flex-row flex-wrap gap-y-1 pr-10">
+          <div className="flex flex-row flex-wrap items-center gap-y-1">
             {navItems.map(({ href, label, external }) => {
               // Active when the path matches exactly (home) or starts with the
               // route prefix. Project detail pages also light up "portfolio".
@@ -84,6 +85,7 @@ export function Navbar() {
                 </Link>
               )
             })}
+            <ThemeToggle />
           </div>
         </nav>
       </div>

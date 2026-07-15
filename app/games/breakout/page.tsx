@@ -427,7 +427,7 @@ export default function BreakoutPage() {
   const livesArr = Array.from({ length: INIT_LIVES }, (_, i) => i < lives)
 
   return (
-    <main className="relative min-h-screen bg-[#0a0809] text-pink-100">
+    <main className="relative min-h-screen">
       <div className="aurora">
         <div className="aurora-wrap">
           <div className="aurora-band aurora-1" />
