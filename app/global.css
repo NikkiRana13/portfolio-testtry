@@ -34,6 +34,7 @@ html, body {
   background: var(--bg);
   color: var(--fg);
   min-width: 360px;
+  overflow-x: hidden;
 }
 
 /* --- PROSE + GLOBAL ELEMENTS --- */
@@ -292,4 +293,14 @@ html.light footer {
 }
 html.light footer a:hover {
   color: var(--fg);
+}
+
+/* Hard-coded dark overlays (game screens) keep light text in light mode */
+html.light [class*=" bg-[#0"],
+html.light [class^="bg-[#0"] {
+  color: #fce7f3;
+}
+html.light [class*=" bg-[#0"] [class*="text-pink-"],
+html.light [class^="bg-[#0"] [class*="text-pink-"] {
+  color: #fce7f3 !important;
 }

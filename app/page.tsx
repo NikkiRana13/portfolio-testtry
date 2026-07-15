@@ -43,7 +43,7 @@ export default function Page() {
           <div className="flex flex-col-reverse lg:flex-row items-start gap-8 lg:gap-14">
 
             {/* Profile photo */}
-            <div className="w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 self-start rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
+            <div className="w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 mx-auto lg:mx-0 self-start rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
               {/* ↓ Replace with your photo: place file at public/images/profile.jpg
                   then swap this div for:
                   <Image src="/images/profile.jpg" alt="Nikki Rana" fill className="object-cover" />
@@ -57,7 +57,7 @@ export default function Page() {
 
             {/* Text */}
             <div className="flex-1 min-w-0">
-              <h1 className="mb-4 text-4xl sm:text-5xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
+              <h1 className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
                 {displayText}
                 <span className="animate-pulse">|</span>
               </h1>

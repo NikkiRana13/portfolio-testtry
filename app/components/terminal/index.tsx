@@ -27,7 +27,8 @@ type HistoryItem = { command: string; output: OutputLine[] }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const PROMPT = 'nikki@portfolio:~$'
+const PROMPT_FULL  = 'nikki@portfolio:~$'  // decorative title bar only
+const PROMPT_SHORT = '~$'                  // input row + command echoes
 
 function blank(): BlankLine { return { type: 'blank' } }
 function text(content: string): TextLine { return { type: 'text', content } }
@@ -45,10 +46,11 @@ function helpOutput(): OutputLine[] {
     blank(),
   ]
   COMMAND_LIST.forEach(cmd => {
-    lines.push(text(`  ${cmd.name.padEnd(22)}${cmd.desc}`))
+    lines.push(accent(`  ${cmd.name}`))
+    lines.push(dim(`    ${cmd.desc}`))
   })
   lines.push(blank())
-  lines.push(dim('  ↑/↓ to navigate history  ·  Tab to autocomplete  ·  clear to reset'))
+  lines.push(dim('  ↑/↓ history  ·  Tab autocomplete  ·  clear to reset'))
   return lines
 }
 
@@ -62,7 +64,7 @@ function aboutOutput(): OutputLine[] {
     lines.push(text(`  ${p}`))
     lines.push(blank())
   })
-  lines.push(accent('  ── quick facts ──────────────────────────'))
+  lines.push(accent('  ── quick facts'))
   facts.forEach(f => lines.push(text(`  –  ${f}`)))
   return lines
 }
@@ -463,7 +465,7 @@ export function TerminalAbout() {
             <span className="h-3 w-3 rounded-full bg-yellow-500/55" />
             <span className="h-3 w-3 rounded-full bg-green-500/55" />
           </span>
-          <span className="ml-2 font-mono text-xs text-pink-300/45">{PROMPT}</span>
+          <span className="ml-2 font-mono text-xs text-pink-300/45">{PROMPT_FULL}</span>
         </div>
 
         {/* ── Scrollable output ─────────────────────────────────────────── */}
@@ -473,7 +475,7 @@ export function TerminalAbout() {
         */}
         <div
           ref={outputRef}
-          className="h-64 overflow-y-auto px-4 py-3 font-mono text-sm sm:h-72"
+          className="h-64 overflow-y-auto overflow-x-hidden px-4 py-3 font-mono text-sm sm:h-72"
           onClick={() => inputRef.current?.focus()}
         >
           {/* Welcome message */}
@@ -488,7 +490,7 @@ export function TerminalAbout() {
             <div key={i} className="mb-3">
               {/* Echoed command */}
               <div>
-                <span className="text-[#B3446C] select-none">{PROMPT} </span>
+                <span className="text-[#B3446C] select-none">{PROMPT_SHORT} </span>
                 <span className="text-pink-100">{entry.command}</span>
               </div>
               {/* Output lines */}
@@ -509,7 +511,7 @@ export function TerminalAbout() {
             className="flex-shrink-0 select-none font-mono text-xs text-[#B3446C]"
             aria-hidden="true"
           >
-            {PROMPT}
+            {PROMPT_SHORT}
           </span>
 
           <input
@@ -578,7 +580,7 @@ export function TerminalAbout() {
                       : 'text-pink-300/65 hover:bg-pink-950/50 hover:text-pink-100',
                   ].join(' ')}
                 >
-                  <span className="w-[148px] flex-shrink-0 text-[13px] text-[#B3446C]">
+                  <span className="w-28 flex-shrink-0 text-[13px] text-[#B3446C] sm:w-[148px]">
                     {cmd.name}
                   </span>
                   <span className="truncate text-xs text-pink-300/40">{cmd.desc}</span>
