@@ -74,9 +74,61 @@ function BreakoutPreview() {
   )
 }
 
+function TriviaPreview() {
+  // 5-column Jeopardy board: header row + 3 visible value rows
+  const cols   = 5
+  const colW   = 10
+  const gap    = 2
+  const margin = 2
+  const xs     = Array.from({ length: cols }, (_, i) => margin + i * (colW + gap))
+
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      width="64"
+      height="64"
+      aria-hidden="true"
+      style={{ imageRendering: 'pixelated', display: 'block' }}
+    >
+      <rect width="64" height="64" fill="#0a0809" />
+
+      {/* Category header row */}
+      {xs.map((x, c) => (
+        <rect key={`h${c}`} x={x} y="2" width={colW} height="10" fill="#B3446C" />
+      ))}
+
+      {/* $100 row */}
+      {xs.map((x, c) => (
+        <rect key={`r1${c}`} x={x} y="14" width={colW} height="8"
+          fill={c === 2 ? 'rgba(179,68,108,0.12)' : 'rgba(179,68,108,0.65)'}
+        />
+      ))}
+
+      {/* $200 row */}
+      {xs.map((x, c) => (
+        <rect key={`r2${c}`} x={x} y="24" width={colW} height="8" fill="rgba(179,68,108,0.42)" />
+      ))}
+
+      {/* $300 row */}
+      {xs.map((x, c) => (
+        <rect key={`r3${c}`} x={x} y="34" width={colW} height="8" fill="rgba(179,68,108,0.25)" />
+      ))}
+
+      {/* $400 row (dimmer, suggesting more rows below) */}
+      {xs.map((x, c) => (
+        <rect key={`r4${c}`} x={x} y="44" width={colW} height="8" fill="rgba(179,68,108,0.14)" />
+      ))}
+
+      {/* Gold point-value dot on an unspent tile (col 0, row 1) */}
+      <rect x={xs[0] + 3} y="17" width="4" height="2" fill="#eab308" opacity="0.85" />
+    </svg>
+  )
+}
+
 const PREVIEWS: Record<string, ReactNode> = {
   snake:    <SnakePreview />,
   breakout: <BreakoutPreview />,
+  trivia:   <TriviaPreview />,
 }
 
 const DIFFICULTY_COLORS: Record<Game['difficulty'], string> = {

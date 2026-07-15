@@ -27,4 +27,13 @@ export const games: Game[] = [
     difficulty: 'medium',
     controls: 'Mouse · Touch · Arrow keys',
   },
+  {
+    id: 'trivia',
+    title: 'Trivia',
+    description: 'Jeopardy-style questions — all about me. Think you know me?',
+    href: '/games/trivia',
+    storageKey: 'game-trivia-hi',
+    difficulty: 'hard',
+    controls: 'Tap a tile',
+  },
 ]
