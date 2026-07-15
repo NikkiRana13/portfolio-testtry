@@ -60,9 +60,9 @@ export default function Page() {
       </div>
 
       {/* Content */}
-      <div className="relative mx-auto max-w-5xl px-4 py-12">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Soft container that blends into bg */}
-        <section className="glass glass-ring p-6">
+        <section className="glass glass-ring p-6 md:p-10">
           {/* Typing headline */}
           <h1 className="mb-6 text-4xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
             {displayText}
@@ -89,7 +89,7 @@ export default function Page() {
           {/* Projects */}
           <section className="mt-4">
             <h3 className="mb-4 text-lg font-medium text-violet-200/90">Projects</h3>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
               {projects.map((p, idx) => (
                 <Reveal key={p.slug} delay={idx * 80}>
                   <Link

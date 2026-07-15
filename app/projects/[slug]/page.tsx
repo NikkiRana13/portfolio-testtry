@@ -54,7 +54,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-3xl px-4 py-10">
+      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Back button */}
         <Link
           href="/"
