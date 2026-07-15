@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { formatDate } from 'app/blog/utils'
+import { formatDate } from 'app/blog/format-date'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
