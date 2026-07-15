@@ -7,6 +7,8 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Footer from './components/footer'
 import { PixelGoose } from './components/pixel-goose'
+import { FlowerCollectionProvider } from './context/FlowerCollectionContext'
+import { FlowerLayer, BouquetController } from './components/flowers'
 import { baseUrl } from './sitemap'
 
 export const metadata: Metadata = {
@@ -55,14 +57,18 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();` }} />
       </head>
       <body className="antialiased">
-        <main className="flex-auto min-w-0 flex flex-col">
-          <Navbar />
-          {children}
-          <Footer />
-          <PixelGoose />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+        <FlowerCollectionProvider>
+          <main className="flex-auto min-w-0 flex flex-col">
+            <Navbar />
+            {children}
+            <Footer />
+            <PixelGoose />
+            <FlowerLayer />
+            <BouquetController />
+            <Analytics />
+            <SpeedInsights />
+          </main>
+        </FlowerCollectionProvider>
       </body>
     </html>
   )

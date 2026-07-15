@@ -304,3 +304,60 @@ html.light [class*=" bg-[#0"] [class*="text-pink-"],
 html.light [class^="bg-[#0"] [class*="text-pink-"] {
   color: #fce7f3 !important;
 }
+
+/* ─── BUILD-A-BOUQUET: flower animations ──────────────────────────────────── */
+
+/* Gentle float on hover */
+@keyframes flowerHover {
+  0%, 100% { transform: translateY(0)   rotate(0deg);   }
+  25%       { transform: translateY(-3px) rotate(-3deg); }
+  75%       { transform: translateY(-2px) rotate(2deg);  }
+}
+
+/* Bounce up then fly away on collect */
+@keyframes flowerCollect {
+  0%   { transform: scale(1)   translateY(0);    opacity: 1; }
+  35%  { transform: scale(1.5) translateY(-10px); opacity: 1; }
+  100% { transform: scale(0.5) translateY(-30px); opacity: 0; }
+}
+
+/* Toast fade in + hold + fade out */
+@keyframes flowerToast {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  12%  { opacity: 1; transform: translateX(-50%) translateY(0);   }
+  75%  { opacity: 1; transform: translateX(-50%) translateY(0);   }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+}
+
+/* Bouquet panel slide-up entrance */
+@keyframes panelSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Backdrop fade */
+@keyframes panelFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Completion sparkles */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg);    }
+  40%       { opacity: 1; transform: scale(1)   rotate(45deg);   }
+  70%       { opacity: 0.6; transform: scale(0.8) rotate(90deg); }
+}
+
+/* Completion glow on the bouquet button */
+@keyframes bouquetGlow {
+  from { box-shadow: 0 0 0 2px rgba(179,68,108,0.4), 0 0 12px rgba(179,68,108,0.2); }
+  to   { box-shadow: 0 0 0 2px rgba(179,68,108,0.8), 0 0 24px rgba(179,68,108,0.4); }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes flowerHover    { 0%, 100% { transform: none; } }
+  @keyframes flowerCollect  { 0% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes sparkle        { 0%, 100% { opacity: 0; } 40% { opacity: 1; } }
+  @keyframes bouquetGlow    { from, to { box-shadow: 0 0 0 2px rgba(179,68,108,0.5); } }
+}
