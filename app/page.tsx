@@ -1,56 +1,8 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-
-type Project = {
-  title: string;
-  subtitle?: string;
-  caption?: string;
-  links?: Array<{ label: string; href: string }>;
-};
-
-const projects: Project[] = [
-  {
-    title: 'CTPC Coding Tournament',
-    subtitle: 'National student-run event · Ops, sponsorships, product',
-    caption:
-      'Scaled a cross-campus tournament; built ops workflows, sponsorship pipeline, and event tooling.',
-    links: [
-      { label: 'Overview', href: '#' },
-      { label: 'Photos', href: '#' },
-      { label: 'GitHub', href: '#' },
-    ],
-  },
-  {
-    title: 'Human Factors Mini Lab',
-    subtitle: 'Usability studies · Task analysis · UI prototyping',
-    caption:
-      'Rapid studies on reach, visual angle, and interface flows; turned findings into design requirements.',
-    links: [
-      { label: 'Case Study', href: '#' },
-      { label: 'Figma', href: '#' },
-    ],
-  },
-  {
-    title: 'Vim Essay',
-    subtitle: 'Writing · Developer tooling',
-    caption:
-      'A defense of Vim’s longevity: efficiency, customizability, and a thriving community.',
-    links: [
-      { label: 'Read Post', href: '#' },
-      { label: 'MDX Source', href: '#' },
-    ],
-  },
-  {
-    title: 'Portfolio Site',
-    subtitle: 'Next.js · MDX · Tailwind',
-    caption:
-      'Personal site with MDX blog, lilac/black theme, and a simple project grid.',
-    links: [
-      { label: 'Live', href: '#' },
-      { label: 'Repo', href: '#' },
-    ],
-  },
-];
+‘use client’;
+import { useEffect, useRef, useState } from ‘react’;
+import Link from ‘next/link’;
+import Image from ‘next/image’;
+import { projects } from ‘app/projects/data’;
 
 /** Subtle reveal on scroll */
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -139,45 +91,46 @@ export default function Page() {
             <h3 className="mb-4 text-lg font-medium text-violet-200/90">Projects</h3>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {projects.map((p, idx) => (
-                <Reveal key={p.title} delay={idx * 80}>
-                  <article className="group rounded-2xl p-5 card ring-1 ring-white/10 backdrop-blur-[2px] transition-all hover:ring-white/20 hover:brightness-110">
-                    {/* Image placeholder (swap for <Image> later) */}
+                <Reveal key={p.slug} delay={idx * 80}>
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="group block rounded-2xl p-5 card ring-1 ring-white/10 backdrop-blur-[2px] transition-all hover:ring-white/20 hover:brightness-110"
+                  >
+                    {/* Cover image or placeholder */}
                     <div className="relative mb-4 overflow-hidden rounded-xl bg-neutral-900/60 ring-1 ring-white/10">
-                      <div className="flex h-48 items-center justify-center text-sm text-neutral-400">
-                        (Project image here)
-                      </div>
+                      {p.coverImage ? (
+                        <Image
+                          src={p.coverImage}
+                          alt={p.title}
+                          width={600}
+                          height={192}
+                          className="h-48 w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-48 items-center justify-center text-sm text-neutral-500">
+                          (Project image here)
+                        </div>
+                      )}
                     </div>
 
                     <h4 className="text-xl font-semibold tracking-tight text-violet-100">
                       {p.title}
                     </h4>
 
-                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-violet-300/90">
-                      {p.subtitle && <span className="text-violet-300/85">{p.subtitle}</span>}
-                      {p.links && p.links.length > 0 && (
-                        <>
-                          <span aria-hidden="true" className="text-violet-400/40">•</span>
-                          <nav aria-label={`${p.title} links`} className="flex flex-wrap gap-2">
-                            {p.links.map((l) => (
-                              <a
-                                key={l.href + l.label}
-                                href={l.href}
-                                className="underline decoration-violet-500/50 underline-offset-2 hover:text-violet-100 hover:decoration-violet-300"
-                              >
-                                {l.label}
-                              </a>
-                            ))}
-                          </nav>
-                        </>
-                      )}
-                    </div>
+                    {p.subtitle && (
+                      <p className="mt-1 text-sm text-violet-300/85">{p.subtitle}</p>
+                    )}
 
-                    {p.caption && (
+                    {p.shortDescription && (
                       <p className="mt-3 text-sm leading-relaxed text-violet-100/80">
-                        {p.caption}
+                        {p.shortDescription}
                       </p>
                     )}
-                  </article>
+
+                    <span className="mt-4 inline-block text-xs text-violet-400/60 transition-colors group-hover:text-violet-300/80">
+                      View project →
+                    </span>
+                  </Link>
                 </Reveal>
               ))}
             </div>
