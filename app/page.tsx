@@ -49,7 +49,7 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0b0b0f] text-violet-100">
+    <main className="relative min-h-screen overflow-hidden bg-[#0b0b0f] text-pink-100">
       {/* Full-screen animated aurora, behind everything */}
       <div className="aurora">
         <div className="aurora-wrap">
@@ -72,14 +72,14 @@ export default function Page() {
           {/* Intro */}
           <header className="mb-8">
             <h2 className="text-3xl font-semibold tracking-tight">My Portfolio</h2>
-            <p className="mt-3 max-w-2xl text-violet-200/85">
+            <p className="mt-3 max-w-2xl text-pink-200/85">
               I'm Nikki Rana, born and raised in Cambridge, now studying Systems
               Design Engineering at the University of Waterloo. I focus on human
               factors—the intersection of product, design, and how people actually
               experience tech. I like the tiny details that make things easier and
               the bigger picture of how design shapes lives.
             </p>
-            <p className="mt-3 max-w-2xl text-violet-200/85">
+            <p className="mt-3 max-w-2xl text-pink-200/85">
               Outside of school I've organized coding competitions, mentored across
               programs, joined panels, and when I'm not doing something vaguely
               productive, I'm probably annoying my older siblings or cooking.
@@ -88,7 +88,7 @@ export default function Page() {
 
           {/* Projects */}
           <section className="mt-4">
-            <h3 className="mb-4 text-lg font-medium text-violet-200/90">Projects</h3>
+            <h3 className="mb-4 text-lg font-medium text-pink-200/90">Projects</h3>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
               {projects.map((p, idx) => (
                 <Reveal key={p.slug} delay={idx * 80}>
@@ -113,21 +113,21 @@ export default function Page() {
                       )}
                     </div>
 
-                    <h4 className="text-xl font-semibold tracking-tight text-violet-100">
+                    <h4 className="text-xl font-semibold tracking-tight text-pink-100">
                       {p.title}
                     </h4>
 
                     {p.subtitle && (
-                      <p className="mt-1 text-sm text-violet-300/85">{p.subtitle}</p>
+                      <p className="mt-1 text-sm text-pink-300/85">{p.subtitle}</p>
                     )}
 
                     {p.shortDescription && (
-                      <p className="mt-3 text-sm leading-relaxed text-violet-100/80">
+                      <p className="mt-3 text-sm leading-relaxed text-pink-100/80">
                         {p.shortDescription}
                       </p>
                     )}
 
-                    <span className="mt-4 inline-block text-xs text-violet-400/60 transition-colors group-hover:text-violet-300/80">
+                    <span className="mt-4 inline-block text-xs text-pink-400/60 transition-colors group-hover:text-pink-300/80">
                       View project →
                     </span>
                   </Link>

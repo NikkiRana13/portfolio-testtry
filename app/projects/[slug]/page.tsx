@@ -30,8 +30,8 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <div className="border-t border-violet-900/40 pt-7 mt-7 first:border-0 first:pt-0 first:mt-0">
-      <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-violet-400/60">
+    <div className="border-t border-pink-900/40 pt-7 mt-7 first:border-0 first:pt-0 first:mt-0">
+      <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
         {label}
       </h2>
       {children}
@@ -44,7 +44,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) notFound()
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0b0b0f] text-violet-100">
+    <main className="relative min-h-screen overflow-hidden bg-[#0b0b0f] text-pink-100">
       {/* Aurora background — same as homepage */}
       <div className="aurora">
         <div className="aurora-wrap">
@@ -58,7 +58,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         {/* Back button */}
         <Link
           href="/"
-          className="group mb-8 inline-flex items-center gap-1.5 text-sm text-violet-300/60 transition-colors hover:text-violet-100"
+          className="group mb-8 inline-flex items-center gap-1.5 text-sm text-pink-300/60 transition-colors hover:text-pink-100"
         >
           <svg
             width="14"
@@ -95,14 +95,14 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
           {/* Title block */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold tracking-tight text-violet-100 drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
+            <h1 className="text-3xl font-bold tracking-tight text-pink-100 drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
               {project.title}
             </h1>
             {project.subtitle && (
-              <p className="mt-2 text-sm text-violet-300/80">{project.subtitle}</p>
+              <p className="mt-2 text-sm text-pink-300/80">{project.subtitle}</p>
             )}
             {project.shortDescription && (
-              <p className="mt-3 text-violet-100/70 leading-relaxed">
+              <p className="mt-3 text-pink-100/70 leading-relaxed">
                 {project.shortDescription}
               </p>
             )}
@@ -121,7 +121,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                       ? 'noopener noreferrer'
                       : undefined
                   }
-                  className="inline-flex items-center gap-1.5 rounded-full bg-violet-900/30 px-4 py-1.5 text-sm text-violet-200 ring-1 ring-violet-500/30 transition-all hover:bg-violet-800/40 hover:ring-violet-400/40"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-pink-900/30 px-4 py-1.5 text-sm text-pink-200 ring-1 ring-pink-500/30 transition-all hover:bg-pink-800/40 hover:ring-pink-400/40"
                 >
                   {link.label}
                 </a>
@@ -133,7 +133,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           <div>
             {project.overview && (
               <Section label="Overview">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.overview}
                 </p>
               </Section>
@@ -141,7 +141,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
             {project.problem && (
               <Section label="Problem / Context">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.problem}
                 </p>
               </Section>
@@ -149,7 +149,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
             {project.role && (
               <Section label="My Role">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.role}
                 </p>
               </Section>
@@ -157,7 +157,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
             {project.process && (
               <Section label="Process">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.process}
                 </p>
               </Section>
@@ -169,7 +169,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                   {project.tools.map((tool) => (
                     <span
                       key={tool}
-                      className="rounded-md bg-violet-950/60 px-3 py-1 text-sm text-violet-300 ring-1 ring-violet-800/50"
+                      className="rounded-md bg-pink-950/60 px-3 py-1 text-sm text-pink-300 ring-1 ring-pink-800/50"
                     >
                       {tool}
                     </span>
@@ -180,7 +180,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
             {project.results && (
               <Section label="Results & Impact">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.results}
                 </p>
               </Section>
@@ -188,7 +188,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
             {project.learnings && (
               <Section label="Key Learnings">
-                <p className="leading-relaxed text-violet-100/80">
+                <p className="leading-relaxed text-pink-100/80">
                   {project.learnings}
                 </p>
               </Section>
@@ -197,8 +197,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
           {/* Additional images / gallery */}
           {project.images && project.images.length > 0 && (
-            <div className="mt-10 border-t border-violet-900/40 pt-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-violet-400/60">
+            <div className="mt-10 border-t border-pink-900/40 pt-8">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-pink-400/60">
                 Gallery
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
