@@ -2,7 +2,17 @@ import './global.css'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { Press_Start_2P } from 'next/font/google'
 import { Navbar } from './components/nav'
+
+// Pixel display font — used for hero greeting, section labels, game/terminal UI.
+// Body copy stays in GeistSans for readability.
+const pixelFont = Press_Start_2P({
+  weight:   '400',
+  subsets:  ['latin'],
+  variable: '--font-pixel',
+  display:  'swap',
+})
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Footer from './components/footer'
@@ -50,7 +60,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cx(GeistSans.variable, GeistMono.variable)}
+      className={cx(GeistSans.variable, GeistMono.variable, pixelFont.variable)}
     >
       <head>
         {/* Runs before paint — applies saved theme class to avoid flash */}

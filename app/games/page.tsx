@@ -19,8 +19,11 @@ export default function GamesPage() {
 
       <div className="relative mx-auto max-w-2xl px-4 py-16 sm:px-6">
         <div className="mb-10">
-          <h1 className="mb-3 text-4xl font-bold tracking-tight">games</h1>
-          <p className="text-sm leading-relaxed text-pink-300/60">
+          <h1 className="mb-3 font-pixel font-pixel-lg"
+              style={{ fontFamily: 'var(--font-pixel), monospace' }}>
+            // games
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-pink-300/60">
             sometimes i build useful things. sometimes i build tiny games.
           </p>
         </div>

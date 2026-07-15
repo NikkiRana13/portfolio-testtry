@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="20" viewBox="0 0 14 20">
+  <!--
+    Pixel arrow cursor — hotspot at (0,0)
+    Replace this file with any 14×20 (or 2× → 28×40) PNG/SVG to update the cursor.
+    CSS usage: cursor: url('/cursors/pixel-default.svg') 0 0, auto;
+  -->
+  <!-- Dark outline (painted first, behind fill) -->
+  <polygon
+    points="1,0 0,1 0,14 3,11 5,16 8,15 6,10 10,10 10,9 5,9 7,14 5,15 3,10 0,13 0,1"
+    fill="#2d0f1e"
+    shape-rendering="crispEdges"
+  />
+  <!-- Pink fill (on top) -->
+  <polygon
+    points="1,1 1,12 4,9 6,14 7,14 5,8 9,8 1,1"
+    fill="#f9a8d4"
+    shape-rendering="crispEdges"
+  />
+</svg>

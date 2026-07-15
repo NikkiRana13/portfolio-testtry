@@ -82,17 +82,51 @@ export default function Blog({ params }) {
           }),
         }}
       />
+
+      {/* Pixel breadcrumb */}
+      <p className="pixel-label mb-6" style={{ color: 'rgba(179,68,108,0.7)' }}>
+        // blog / entry
+      </p>
+
       <h1 className="title font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+      <div className="flex justify-between items-center mt-2 mb-6 text-sm">
+        <p
+          style={{
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 8,
+            color: 'rgba(179,68,108,0.7)',
+            letterSpacing: '0.06em',
+          }}
+        >
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
+
+      {/* Pixel divider before content */}
+      <div className="pixel-divider" style={{ marginBottom: 32 }} />
+
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
+
+      {/* Back link */}
+      <div style={{ marginTop: 48 }}>
+        <div className="pixel-divider" style={{ marginBottom: 16 }} />
+        <a
+          href="/blog"
+          style={{
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 8,
+            color: 'rgba(179,68,108,0.8)',
+            textDecoration: 'none',
+            letterSpacing: '0.06em',
+          }}
+        >
+          ← back to notebook
+        </a>
+      </div>
     </section>
   )
 }

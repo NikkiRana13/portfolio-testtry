@@ -25,6 +25,20 @@
   --sh-jsxliterals: #f9a8d4;
   --sh-property: #f59e0b;
   --sh-entity: #f59e0b;
+
+  /* ─── Pixel design system tokens ─────────────────────────────────────────
+     Adjust these to retune the entire pixel aesthetic in one place.      */
+  --pixel-border:         2px solid rgba(179,68,108,0.55);
+  --pixel-shadow:         4px 4px 0 rgba(0,0,0,0.65);
+  --pixel-shadow-accent:  4px 4px 0 rgba(179,68,108,0.30);
+  --pixel-radius:         0px;            /* sharp corners for pixel feel */
+  --pixel-grid-size:      3px;            /* 1 logical pixel in sprite art */
+  --pixel-accent-pink:    #B3446C;
+  --pixel-ink:            #fce7f3;        /* text on dark surfaces */
+  --pixel-paper:          #16050f;        /* notebook cover / dark paper   */
+  --pixel-paper-open:     #1a0d14;        /* open page (slightly lighter)  */
+  --pixel-background:     #0a0809;
+  --pixel-line-color:     rgba(179,68,108,0.18); /* lined-paper rule color */
 }
 
 html { color-scheme: dark; }
@@ -35,6 +49,167 @@ html, body {
   color: var(--fg);
   min-width: 360px;
   overflow-x: hidden;
+}
+
+/* ─── CUSTOM PIXEL CURSOR ────────────────────────────────────────────────── */
+/*
+  Cursor asset paths:
+    /public/cursors/pixel-default.svg  — arrow  (hotspot 0,0)
+    /public/cursors/pixel-pointer.svg  — hand   (hotspot 4,0)
+  Replace those files with any 14×20 (or 28×40 for HiDPI) PNG/SVG.
+  Fallbacks: 'auto' / 'pointer' (browser default) in case the file is missing.
+*/
+@media (hover: hover) and (pointer: fine) {
+  /* Default cursor for all elements */
+  *, *::before, *::after {
+    cursor: url('/cursors/pixel-default.svg') 0 0, auto;
+  }
+
+  /* Pointer cursor for interactive elements */
+  a,
+  button,
+  [role="button"],
+  [role="link"],
+  label[for],
+  select,
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  summary,
+  .cursor-pointer {
+    cursor: url('/cursors/pixel-pointer.svg') 4 0, pointer;
+  }
+
+  /* Text input cursor: keep the I-beam so text selection works naturally */
+  input[type="text"],
+  input[type="email"],
+  input[type="search"],
+  input[type="password"],
+  input[type="url"],
+  textarea {
+    cursor: text;
+  }
+}
+/* Touch / coarse-pointer devices: fall back to OS cursor */
+@media (hover: none), (pointer: coarse) {
+  *, *::before, *::after { cursor: auto !important; }
+}
+
+/* ─── PIXEL TYPOGRAPHY ───────────────────────────────────────────────────── */
+/*
+  --font-pixel is injected as a CSS variable by next/font/google (Press Start 2P).
+  It is added to <html> via the font's .variable class in layout.tsx.
+
+  Use .font-pixel on:
+    - Hero greeting (homepage h1)
+    - Section pixel-labels ("// section name")
+    - Game/terminal UI headings
+    - Notebook title
+    - Small decorative captions
+
+  Do NOT use it on:
+    - Body paragraphs
+    - Project descriptions
+    - Blog post content
+    - Navigation links (readability first)
+*/
+.font-pixel {
+  font-family: var(--font-pixel), 'Courier New', monospace;
+  font-weight: 400;
+  /* Press Start 2P is already optimised at even multiples of 8px.
+     line-height 1.6 gives comfortable reading at small pixel sizes.  */
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* Pre-sized variants — compose with .font-pixel */
+.font-pixel-xs  { font-size: 0.5rem;    line-height: 1.8; }  /* 8px  — decorative labels */
+.font-pixel-sm  { font-size: 0.625rem;  line-height: 1.7; }  /* 10px — section labels    */
+.font-pixel-md  { font-size: 0.75rem;   line-height: 1.6; }  /* 12px — UI headings       */
+.font-pixel-lg  { font-size: 0.875rem;  line-height: 1.5; }  /* 14px — hero / game title */
+.font-pixel-hero { font-size: clamp(0.75rem, 2.5vw, 1rem); line-height: 1.8; }
+
+/* ─── PIXEL UI UTILITIES ─────────────────────────────────────────────────── */
+
+/* Hard pixel shadow (no blur) */
+.pixel-shadow         { box-shadow: var(--pixel-shadow); }
+.pixel-shadow-accent  { box-shadow: var(--pixel-shadow-accent); }
+.pixel-shadow-sm      { box-shadow: 2px 2px 0 rgba(0,0,0,0.65); }
+
+/* Sharp pixel border */
+.pixel-border         { border: var(--pixel-border); border-radius: var(--pixel-radius); }
+
+/* Lined-paper background (used by notebook pages) */
+.pixel-lined {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    var(--pixel-line-color) 27px,
+    var(--pixel-line-color) 28px
+  );
+  background-size: 100% 28px;
+}
+
+/* Section label style: tiny pixel text, dimmed */
+.pixel-label {
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  user-select: none;
+}
+
+/* Decorative pixel divider (horizontal rule) */
+.pixel-divider {
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pixel-accent-pink) 0px,
+    var(--pixel-accent-pink) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* ─── NOTEBOOK OPEN/CLOSE TRANSITIONS ────────────────────────────────────── */
+@keyframes notebookOpen {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes notebookClose {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(6px) scale(0.98); }
+}
+@keyframes penWiggle {
+  0%,100% { transform: rotate(-8deg) translateX(0); }
+  25%     { transform: rotate(-14deg) translateX(-2px); }
+  75%     { transform: rotate(-4deg) translateX(2px); }
+}
+
+/* ─── HOMEPAGE GREETING ──────────────────────────────────────────────────── */
+/* Blinking pixel cursor at end of typewriter */
+@keyframes pixelBlink {
+  0%,49% { opacity: 1; }
+  50%,100% { opacity: 0; }
+}
+.pixel-cursor-blink {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1em;
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: pixelBlink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes notebookOpen  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes notebookClose { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes penWiggle     { 0%,100% { transform: rotate(-8deg); } }
+  .pixel-cursor-blink      { animation: none; opacity: 1; }
 }
 
 /* --- PROSE + GLOBAL ELEMENTS --- */
@@ -234,6 +409,12 @@ html.light {
   --sh-jsxliterals: #a21caf;
   --sh-property:    #b45309;
   --sh-entity:      #b45309;
+
+  /* Pixel tokens — notebook pages look like real paper in light mode */
+  --pixel-paper:      #f7e8ee;
+  --pixel-paper-open: #fdf2f5;
+  --pixel-line-color: rgba(179,68,108,0.12);
+  --pixel-ink:        #2d0f1e;
 }
 
 /* Glass surfaces */
@@ -360,4 +541,18 @@ html.light [class^="bg-[#0"] [class*="text-pink-"] {
   @keyframes flowerCollect  { 0% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes sparkle        { 0%, 100% { opacity: 0; } 40% { opacity: 1; } }
   @keyframes bouquetGlow    { from, to { box-shadow: 0 0 0 2px rgba(179,68,108,0.5); } }
+}
+
+/* ─── NOTEBOOK POST LIST HOVER ───────────────────────────────────────────── */
+/* Can't be done as an inline style in the component — needs :hover selector. */
+a:hover .post-title {
+  color: #B3446C !important;
+}
+
+/* Light mode: notebook post titles stay readable */
+html.light .post-title {
+  color: #2d0f1e;
+}
+html.light a:hover .post-title {
+  color: #9c3060 !important;
 }

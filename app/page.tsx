@@ -11,15 +11,26 @@ import { TerminalAbout } from 'app/components/terminal'
 
 export default function Page() {
   const [displayText, setDisplayText] = useState('')
+  const [done, setDone] = useState(false)
   const message = "Hey, I'm Nikki. What's up?"
 
   useEffect(() => {
+    // Respect prefers-reduced-motion: show full text immediately
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReduced) {
+      setDisplayText(message)
+      setDone(true)
+      return
+    }
     let i = 0
     const id = setInterval(() => {
-      setDisplayText(message.slice(0, i + 1))
       i++
-      if (i === message.length) clearInterval(id)
-    }, 80)
+      setDisplayText(message.slice(0, i))
+      if (i === message.length) {
+        clearInterval(id)
+        setDone(true)
+      }
+    }, 65)
     return () => clearInterval(id)
   }, [])
 
@@ -57,9 +68,18 @@ export default function Page() {
 
             {/* Text */}
             <div className="flex-1 min-w-0">
-              <h1 className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight drop-shadow-[0_1px_0_rgba(0,0,0,0.4)]">
+              {/* Pixel greeting — Press Start 2P, sized so it wraps gracefully on mobile */}
+              <h1 className="mb-4 font-pixel font-pixel-hero drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]"
+                  style={{ fontFamily: 'var(--font-pixel), monospace' }}>
                 {displayText}
-                <span className="animate-pulse">|</span>
+                {/* Blinking block cursor while typing; hides when text is complete */}
+                {!done && (
+                  <span
+                    className="pixel-cursor-blink"
+                    aria-hidden="true"
+                    style={{ background: '#f9a8d4' }}
+                  />
+                )}
               </h1>
               <p className="max-w-xl text-pink-200/80 leading-relaxed text-lg">
                 {/* Replace with your own short intro — 1–2 sentences max. */}
