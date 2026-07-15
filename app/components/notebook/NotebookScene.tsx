@@ -289,7 +289,7 @@ function NotebookClosed() {
           <span
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 6,
+              fontSize: 11,
               color: '#fce7f3',
               writingMode: 'vertical-rl',
               textOrientation: 'mixed',
@@ -320,9 +320,9 @@ function NotebookClosed() {
           <h2
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 22,
+              fontSize: 32,
               color: '#fce7f3',
-              lineHeight: 1.5,
+              lineHeight: 1.3,
               margin: 0,
             }}
           >
@@ -346,10 +346,10 @@ function NotebookClosed() {
           <p
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 7,
+              fontSize: 14,
               color: 'rgba(249,168,212,0.5)',
-              lineHeight: 1.9,
-              letterSpacing: '0.08em',
+              lineHeight: 1.6,
+              letterSpacing: '0.04em',
             }}
           >
             thoughts, experiments,
@@ -388,7 +388,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
       <div
         style={{
           background: '#B3446C',
-          height: 20,
+          height: 32,
           display: 'flex',
           alignItems: 'center',
           padding: '0 16px',
@@ -421,8 +421,8 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
             border: '1px solid rgba(252,231,243,0.35)',
             color: '#fce7f3',
             fontFamily: 'var(--font-pixel), monospace',
-            fontSize: 7,
-            padding: '2px 6px',
+            fontSize: 14,
+            padding: '2px 8px',
             letterSpacing: '0.06em',
             cursor: 'pointer',
             flexShrink: 0,
@@ -437,7 +437,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
         style={{
           display: 'flex',
           background: 'var(--pixel-paper-open)',
-          minHeight: 420,
+          minHeight: 520,
         }}
       >
         {/* LEFT PAGE ── intro / meta */}
@@ -445,7 +445,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           className="pixel-lined"
           style={{
             width: '38%',
-            minWidth: 140,
+            minWidth: 180,
             padding: '24px 20px',
             borderRight: '2px solid rgba(179,68,108,0.2)',
             display: 'flex',
@@ -470,10 +470,10 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           <p
             style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 7,
+              fontSize: 14,
               color: 'rgba(179,68,108,0.8)',
-              lineHeight: 1.8,
-              letterSpacing: '0.06em',
+              lineHeight: 1.5,
+              letterSpacing: '0.04em',
             }}
           >
             nikki&apos;s notes
@@ -483,7 +483,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
 
           <p
             style={{
-              fontSize: 11,
+              fontSize: 13,
               color: 'var(--pixel-ink)',
               opacity: 0.55,
               lineHeight: 1.7,
@@ -518,7 +518,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
           }}
         >
           {posts.length === 0 ? (
-            <p style={{ fontSize: 12, opacity: 0.45, fontStyle: 'italic' }}>
+            <p style={{ fontSize: 14, opacity: 0.45, fontStyle: 'italic' }}>
               Nothing written yet. Check back soon.
             </p>
           ) : (
@@ -539,9 +539,9 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <span
                         style={{
                           fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 14,
+                          fontSize: 20,
                           color: 'var(--pixel-ink)',
-                          lineHeight: 1.5,
+                          lineHeight: 1.4,
                           transition: 'color 0.15s ease',
                         }}
                         className="post-title"
@@ -551,7 +551,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <span
                         style={{
                           fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 7,
+                          fontSize: 13,
                           color: 'rgba(179,68,108,0.65)',
                           whiteSpace: 'nowrap',
                           flexShrink: 0,
@@ -565,7 +565,7 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                       <p
                         style={{
                           marginTop: 6,
-                          fontSize: 11,
+                          fontSize: 13,
                           color: 'var(--pixel-ink)',
                           opacity: 0.55,
                           lineHeight: 1.65,
@@ -580,9 +580,9 @@ function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }
                         marginTop: 6,
                         display: 'inline-block',
                         fontFamily: 'var(--font-pixel), monospace',
-                        fontSize: 7,
+                        fontSize: 14,
                         color: '#B3446C',
-                        letterSpacing: '0.06em',
+                        letterSpacing: '0.04em',
                       }}
                     >
                       read →
