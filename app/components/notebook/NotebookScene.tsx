@@ -5,8 +5,10 @@ import { formatDate } from 'app/blog/format-date'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+type Tab = 'reflections' | 'learning' | 'yap'
+
 type Post = {
-  metadata: { title: string; publishedAt: string; summary: string }
+  metadata: { title: string; publishedAt: string; summary: string; category?: Tab }
   slug: string
 }
 
@@ -14,9 +16,25 @@ type Props = {
   posts: Post[]
 }
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const TABS: { id: Tab; label: string; color: string }[] = [
+  { id: 'reflections', label: 'Reflections', color: '#B3446C' },
+  { id: 'learning',    label: 'Learning',    color: '#9b3060' },
+  { id: 'yap',         label: 'Yap',         color: '#c2617a' },
+]
+
+const TODO_ITEMS = [
+  { done: true,  text: 'survive another day' },
+  { done: false, text: 'wear matching socks' },
+  { done: false, text: 'drink water (for real this time)' },
+  { done: false, text: 'reply to that email (u know the one)' },
+  { done: false, text: 'touch grass at least once' },
+  { done: false, text: 'pretend to understand recursion' },
+  { done: false, text: 'go to sleep before 2am' },
+]
+
 // ─── Pen SVG ─────────────────────────────────────────────────────────────────
-// Decorative pixel-art pen lying beside the notebook.
-// Replace this component's SVG to use a different pen design.
 
 function PenSVG({ wiggling }: { wiggling: boolean }) {
   return (
@@ -31,48 +49,37 @@ function PenSVG({ wiggling }: { wiggling: boolean }) {
         animation: wiggling ? 'penWiggle 0.5s ease 1' : undefined,
       }}
     >
-      {/* Body (eraser removed — shifted everything left by 9) */}
       <rect x={0}  y={4}  width={54} height={6}  fill="#f472b6" shapeRendering="crispEdges" />
-      {/* Highlight stripe */}
       <rect x={0}  y={4}  width={54} height={2}  fill="#fce7f3" opacity={0.35} shapeRendering="crispEdges" />
-      {/* Label band */}
       <rect x={23} y={4}  width={10} height={6}  fill="#B3446C" shapeRendering="crispEdges" />
-      {/* Nib */}
       <rect x={54} y={4}  width={8}  height={6}  fill="#B3446C" shapeRendering="crispEdges" />
-      {/* Tip */}
       <rect x={62} y={5}  width={4}  height={4}  fill="#2d0f1e" shapeRendering="crispEdges" />
       <rect x={66} y={6}  width={3}  height={2}  fill="#2d0f1e" shapeRendering="crispEdges" />
       <rect x={69} y={6}  width={2}  height={2}  fill="#4d1a2e" shapeRendering="crispEdges" />
-      {/* Drop shadow line */}
       <rect x={0}  y={10} width={69} height={1}  fill="rgba(0,0,0,0.3)" shapeRendering="crispEdges" />
     </svg>
   )
 }
 
-// ─── Notebook rings decoration ────────────────────────────────────────────────
+// ─── Spine rings ──────────────────────────────────────────────────────────────
 
 function SpineRings() {
-  const rings = [0, 1, 2, 3, 4, 5, 6]
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '20px 0' }}>
-      {rings.map(i => (
-        <div
-          key={i}
-          style={{
-            width: 12,
-            height: 12,
-            borderRadius: '50%',
-            border: '2px solid rgba(0,0,0,0.45)',
-            background: '#0a0809',
-            margin: '0 auto',
-          }}
-        />
+      {[0,1,2,3,4,5,6].map(i => (
+        <div key={i} style={{
+          width: 12, height: 12,
+          borderRadius: '50%',
+          border: '2px solid rgba(0,0,0,0.45)',
+          background: '#0a0809',
+          margin: '0 auto',
+        }} />
       ))}
     </div>
   )
 }
 
-// ─── Small pixel star decoration ──────────────────────────────────────────────
+// ─── Pixel star ───────────────────────────────────────────────────────────────
 
 function PixelStar({ color = '#f9a8d4' }: { color?: string }) {
   return (
@@ -87,7 +94,472 @@ function PixelStar({ color = '#f9a8d4' }: { color?: string }) {
   )
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+// ─── Tab strip (right edge of open notebook) ──────────────────────────────────
+
+function TabStrip({ activeTab, onTabChange }: { activeTab: Tab | null; onTabChange: (t: Tab) => void }) {
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      width: 48,
+      flexShrink: 0,
+      borderLeft: '2px solid rgba(179,68,108,0.2)',
+    }}>
+      {TABS.map((tab, i) => {
+        const isActive = activeTab === tab.id
+        return (
+          <button
+            key={tab.id}
+            onClick={() => onTabChange(tab.id)}
+            aria-pressed={isActive}
+            aria-label={`${tab.label} posts`}
+            style={{
+              flex: 1,
+              background: isActive ? tab.color : 'rgba(179,68,108,0.06)',
+              border: 'none',
+              borderBottom: i < TABS.length - 1 ? '1px solid rgba(179,68,108,0.18)' : 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              transition: 'background 0.15s ease',
+              position: 'relative',
+            }}
+            onMouseEnter={e => {
+              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.15)'
+            }}
+            onMouseLeave={e => {
+              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.06)'
+            }}
+          >
+            {/* Active tab gets a small left arrow indicator */}
+            {isActive && (
+              <div style={{
+                position: 'absolute',
+                left: -6,
+                width: 0,
+                height: 0,
+                borderTop: '6px solid transparent',
+                borderBottom: '6px solid transparent',
+                borderRight: `6px solid ${tab.color}`,
+              }} />
+            )}
+            <span style={{
+              fontFamily: 'var(--font-pixel), monospace',
+              fontSize: 12,
+              color: isActive ? '#fce7f3' : 'rgba(179,68,108,0.55)',
+              writingMode: 'vertical-rl',
+              textOrientation: 'mixed',
+              transform: 'rotate(180deg)',
+              letterSpacing: '0.1em',
+              userSelect: 'none',
+            }}>
+              {tab.label}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+// ─── Left page: name + to-do list ─────────────────────────────────────────────
+
+function LeftPage() {
+  return (
+    <div
+      className="pixel-lined"
+      style={{
+        width: '38%',
+        minWidth: 200,
+        padding: '28px 22px',
+        borderRight: '2px solid rgba(179,68,108,0.2)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        flexShrink: 0,
+      }}
+    >
+      {/* Name */}
+      <div>
+        <p className="pixel-label" style={{ color: 'rgba(179,68,108,0.55)', marginBottom: 8 }}>
+          property of
+        </p>
+        <h2 style={{
+          fontFamily: 'var(--font-pixel), monospace',
+          fontSize: 30,
+          color: 'var(--pixel-ink)',
+          lineHeight: 1.3,
+          margin: 0,
+        }}>
+          Nikki<br />Rana
+        </h2>
+      </div>
+
+      <div className="pixel-divider" />
+
+      {/* To-do list */}
+      <div>
+        <p className="pixel-label" style={{ color: 'rgba(179,68,108,0.6)', marginBottom: 12 }}>
+          to-do
+        </p>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {TODO_ITEMS.map((item, i) => (
+            <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <span style={{
+                fontFamily: 'var(--font-pixel), monospace',
+                fontSize: 13,
+                color: item.done ? '#B3446C' : 'rgba(179,68,108,0.5)',
+                flexShrink: 0,
+                lineHeight: 1.5,
+              }}>
+                {item.done ? '[x]' : '[ ]'}
+              </span>
+              <span style={{
+                fontSize: 13,
+                color: 'var(--pixel-ink)',
+                opacity: item.done ? 0.38 : 0.7,
+                lineHeight: 1.5,
+                textDecoration: item.done ? 'line-through' : 'none',
+              }}>
+                {item.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div style={{ marginTop: 'auto' }}>
+        <div className="pixel-divider" />
+        <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+          <PixelStar color="#B3446C" />
+          <PixelStar color="rgba(179,68,108,0.45)" />
+          <PixelStar color="rgba(179,68,108,0.2)" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Right page: tab content ───────────────────────────────────────────────────
+
+function RightPage({ posts, activeTab }: { posts: Post[]; activeTab: Tab | null }) {
+  if (!activeTab) {
+    return (
+      <div
+        className="pixel-lined"
+        style={{
+          flex: 1,
+          padding: '28px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 20,
+        }}
+      >
+        <p style={{
+          fontFamily: 'var(--font-pixel), monospace',
+          fontSize: 16,
+          color: 'rgba(179,68,108,0.45)',
+          textAlign: 'center',
+          lineHeight: 1.8,
+        }}>
+          pick a tab →<br />to start reading
+        </p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <PixelStar color="rgba(179,68,108,0.18)" />
+          <PixelStar color="rgba(179,68,108,0.35)" />
+          <PixelStar color="rgba(179,68,108,0.18)" />
+        </div>
+      </div>
+    )
+  }
+
+  const tab = TABS.find(t => t.id === activeTab)!
+  const filtered = posts.filter(p => p.metadata.category === activeTab)
+
+  return (
+    <div
+      className="pixel-lined"
+      style={{
+        flex: 1,
+        padding: '24px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0,
+        overflowY: 'auto',
+      }}
+    >
+      <h3 style={{
+        fontFamily: 'var(--font-pixel), monospace',
+        fontSize: 22,
+        color: tab.color,
+        lineHeight: 1.4,
+        margin: '0 0 18px 0',
+      }}>
+        // {activeTab}
+      </h3>
+
+      {filtered.length === 0 ? (
+        <p style={{ fontSize: 14, opacity: 0.45, fontStyle: 'italic', color: 'var(--pixel-ink)' }}>
+          Nothing here yet — check back soon.
+        </p>
+      ) : (
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
+          {filtered.map((post, i) => (
+            <li
+              key={post.slug}
+              style={{
+                borderBottom: i < filtered.length - 1 ? '1px solid rgba(179,68,108,0.12)' : 'none',
+                padding: '16px 0',
+              }}
+            >
+              <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+                  <span
+                    className="post-title"
+                    style={{
+                      fontFamily: 'var(--font-pixel), monospace',
+                      fontSize: 20,
+                      color: 'var(--pixel-ink)',
+                      lineHeight: 1.4,
+                      transition: 'color 0.15s ease',
+                    }}
+                  >
+                    {post.metadata.title}
+                  </span>
+                  <span style={{
+                    fontFamily: 'var(--font-pixel), monospace',
+                    fontSize: 14,
+                    color: 'rgba(179,68,108,0.65)',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
+                  }}>
+                    {formatDate(post.metadata.publishedAt)}
+                  </span>
+                </div>
+                {post.metadata.summary && (
+                  <p style={{
+                    marginTop: 6,
+                    fontSize: 14,
+                    color: 'var(--pixel-ink)',
+                    opacity: 0.55,
+                    lineHeight: 1.65,
+                  }}>
+                    {post.metadata.summary}
+                  </p>
+                )}
+                <span style={{
+                  marginTop: 8,
+                  display: 'inline-block',
+                  fontFamily: 'var(--font-pixel), monospace',
+                  fontSize: 16,
+                  color: tab.color,
+                  letterSpacing: '0.04em',
+                }}>
+                  read →
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+// ─── Open notebook two-page spread ────────────────────────────────────────────
+
+function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }) {
+  const [activeTab, setActiveTab] = useState<Tab | null>(null)
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      border: '2px solid rgba(179,68,108,0.55)',
+      boxShadow: '6px 6px 0 rgba(0,0,0,0.7)',
+      overflow: 'hidden',
+    }}>
+      {/* ── Binding bar ─────────────────────────────────────────────────────── */}
+      <div style={{
+        background: '#B3446C',
+        height: 32,
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 16px',
+        gap: 12,
+        borderBottom: '2px solid rgba(0,0,0,0.35)',
+        flexShrink: 0,
+      }}>
+        {Array.from({ length: 9 }).map((_, i) => (
+          <div key={i} style={{
+            width: 10, height: 10,
+            borderRadius: '50%',
+            border: '2px solid rgba(0,0,0,0.45)',
+            background: '#0a0809',
+            flexShrink: 0,
+          }} />
+        ))}
+        <button
+          onClick={onClose}
+          aria-label="Close notebook"
+          style={{
+            marginLeft: 'auto',
+            background: 'none',
+            border: '1px solid rgba(252,231,243,0.35)',
+            color: '#fce7f3',
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 14,
+            padding: '2px 8px',
+            letterSpacing: '0.06em',
+            cursor: 'pointer',
+            flexShrink: 0,
+          }}
+        >
+          close ×
+        </button>
+      </div>
+
+      {/* ── Two-page spread ─────────────────────────────────────────────────── */}
+      <div style={{
+        display: 'flex',
+        background: 'var(--pixel-paper-open)',
+        minHeight: 560,
+      }}>
+        <LeftPage />
+        <RightPage posts={posts} activeTab={activeTab} />
+        <TabStrip activeTab={activeTab} onTabChange={setActiveTab} />
+      </div>
+
+      {/* ── Footer ──────────────────────────────────────────────────────────── */}
+      <div style={{
+        background: 'var(--pixel-paper-open)',
+        borderTop: '1px solid rgba(179,68,108,0.12)',
+        padding: '8px 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <span className="pixel-label" style={{ color: 'rgba(179,68,108,0.4)' }}>nikki rana</span>
+        <span className="pixel-label" style={{ color: 'rgba(179,68,108,0.4)' }}>
+          {activeTab ? `// ${activeTab}` : 'pick a tab →'}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+// ─── Closed notebook visual ───────────────────────────────────────────────────
+
+function NotebookClosed() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        width: 'clamp(320px, 46vw, 580px)',
+        height: 'clamp(422px, calc(46vw * 1.32), 766px)',
+        background: 'var(--pixel-paper)',
+        border: '2px solid rgba(179,68,108,0.6)',
+        boxShadow: '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)',
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'box-shadow 0.15s ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '8px 8px 0 rgba(0,0,0,0.8), 14px 14px 0 rgba(179,68,108,0.25)'
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)'
+      }}
+    >
+      {/* Spine */}
+      <div style={{
+        width: 28,
+        background: '#B3446C',
+        borderRight: '2px solid rgba(0,0,0,0.35)',
+        flexShrink: 0,
+      }}>
+        <SpineRings />
+        <div style={{
+          position: 'absolute', left: 0, top: '50%', width: 28,
+          transform: 'translateY(-50%)',
+          display: 'flex', justifyContent: 'center',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 11, color: '#fce7f3',
+            writingMode: 'vertical-rl', textOrientation: 'mixed',
+            transform: 'rotate(180deg)', letterSpacing: '0.08em', opacity: 0.8,
+          }}>
+            NIKKI
+          </span>
+        </div>
+      </div>
+
+      {/* Cover body */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 24, gap: 16 }}>
+        <div className="pixel-divider" style={{ marginBottom: 8 }} />
+
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
+          <p className="pixel-label" style={{ color: '#B3446C', letterSpacing: '0.12em' }}>
+            vol. 01
+          </p>
+
+          <h2 style={{
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 32, color: 'var(--pixel-ink)',
+            lineHeight: 1.3, margin: 0,
+          }}>
+            Nikki&apos;s<br />Notes
+          </h2>
+
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
+            <PixelStar color="#B3446C" />
+            <div style={{ height: 1, flex: 1, background: 'rgba(179,68,108,0.4)' }} />
+            <PixelStar color="#B3446C" />
+          </div>
+
+          <p style={{
+            fontFamily: 'var(--font-pixel), monospace',
+            fontSize: 14, color: 'rgba(179,68,108,0.7)',
+            lineHeight: 1.6, letterSpacing: '0.04em',
+          }}>
+            thoughts, experiments,<br />and things i&apos;m learning
+          </p>
+
+          {/* Tab preview labels on cover */}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
+            {TABS.map(tab => (
+              <span key={tab.id} style={{
+                fontFamily: 'var(--font-pixel), monospace',
+                fontSize: 11,
+                color: tab.color,
+                border: `1px solid ${tab.color}`,
+                padding: '2px 8px',
+                opacity: 0.75,
+              }}>
+                {tab.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="pixel-divider" />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6, marginTop: 4 }}>
+          <PixelStar color="rgba(179,68,108,0.4)" />
+          <PixelStar color="rgba(179,68,108,0.2)" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main scene ───────────────────────────────────────────────────────────────
 
 export function NotebookScene({ posts }: Props) {
   const [isOpen, setIsOpen] = useState(false)
@@ -114,7 +586,6 @@ export function NotebookScene({ posts }: Props) {
     setTimeout(() => {
       setIsOpen(true)
       setAnimating(false)
-      // Move focus into the open panel for keyboard users
       setTimeout(() => openPanelRef.current?.focus(), 50)
     }, prefersReduced ? 0 : 220)
   }
@@ -132,10 +603,8 @@ export function NotebookScene({ posts }: Props) {
     (a, b) => new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime()
   )
 
-  // ── Desk scene ──────────────────────────────────────────────────────────────
   return (
     <section className="relative min-h-screen">
-      {/* Aurora */}
       <div className="aurora">
         <div className="aurora-wrap">
           <div className="aurora-band aurora-1" />
@@ -144,50 +613,27 @@ export function NotebookScene({ posts }: Props) {
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 py-10 sm:py-16">
-
-        {/* Pixel section label */}
+      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-16">
         <p className="pixel-label mb-6" style={{ color: 'var(--pixel-accent-pink)' }}>
           // blog
         </p>
 
-        {/* ── Desk composition ───────────────────────────────────────────────── */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 24,
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
 
-          {/* ── CLOSED notebook ─────────────────────────────────────────────── */}
+          {/* ── Closed ───────────────────────────────────────────────────────── */}
           {!isOpen && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 20,
-                animation: animating ? 'notebookClose 0.22s ease forwards' : undefined,
-              }}
-            >
+            <div style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20,
+              animation: animating ? 'notebookClose 0.22s ease forwards' : undefined,
+            }}>
               <button
                 onClick={openNotebook}
                 aria-label="Open Nikki's blog notebook"
-                style={{
-                  display: 'flex',
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  position: 'relative',
-                }}
+                style={{ display: 'flex', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <NotebookClosed />
               </button>
 
-              {/* Pen below notebook on mobile, beside it on desktop */}
               <div
                 aria-hidden="true"
                 style={{
@@ -216,7 +662,7 @@ export function NotebookScene({ posts }: Props) {
             </div>
           )}
 
-          {/* ── OPEN notebook ───────────────────────────────────────────────── */}
+          {/* ── Open ─────────────────────────────────────────────────────────── */}
           {isOpen && (
             <div
               ref={openPanelRef}
@@ -225,7 +671,7 @@ export function NotebookScene({ posts }: Props) {
               aria-label="Blog notebook — open"
               style={{
                 width: '100%',
-                maxWidth: 860,
+                maxWidth: 960,
                 outline: 'none',
                 animation: animating ? undefined : 'notebookOpen 0.25s ease',
               }}
@@ -237,382 +683,5 @@ export function NotebookScene({ posts }: Props) {
         </div>
       </div>
     </section>
-  )
-}
-
-// ─── Closed notebook visual ───────────────────────────────────────────────────
-// Replace the CSS/JSX inside here to change the cover artwork.
-
-function NotebookClosed() {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        width: 'clamp(320px, 46vw, 580px)',
-        height: 'clamp(422px, calc(46vw * 1.32), 766px)',
-        background: 'var(--pixel-paper)',
-        border: '2px solid rgba(179,68,108,0.6)',
-        boxShadow: '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)',
-        position: 'relative',
-        overflow: 'hidden',
-        transition: 'box-shadow 0.15s ease',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '8px 8px 0 rgba(0,0,0,0.8), 14px 14px 0 rgba(179,68,108,0.25)'
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '6px 6px 0 rgba(0,0,0,0.7), 10px 10px 0 rgba(179,68,108,0.15)'
-      }}
-    >
-      {/* Spine */}
-      <div
-        style={{
-          width: 28,
-          background: '#B3446C',
-          borderRight: '2px solid rgba(0,0,0,0.35)',
-          flexShrink: 0,
-        }}
-      >
-        <SpineRings />
-        {/* Spine label (rotated text) */}
-        <div style={{
-          position: 'absolute',
-          left: 0,
-          top: '50%',
-          width: 28,
-          transform: 'translateY(-50%)',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-          <span
-            style={{
-              fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 11,
-              color: '#fce7f3',
-              writingMode: 'vertical-rl',
-              textOrientation: 'mixed',
-              transform: 'rotate(180deg)',
-              letterSpacing: '0.08em',
-              opacity: 0.8,
-            }}
-          >
-            NIKKI
-          </span>
-        </div>
-      </div>
-
-      {/* Cover body */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 24, gap: 16 }}>
-        {/* Top decorative strip */}
-        <div className="pixel-divider" style={{ marginBottom: 8 }} />
-
-        {/* Title area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
-          <p
-            className="pixel-label"
-            style={{ color: '#B3446C', letterSpacing: '0.12em' }}
-          >
-            vol. 01
-          </p>
-
-          <h2
-            style={{
-              fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 32,
-              color: 'var(--pixel-ink)',
-              lineHeight: 1.3,
-              margin: 0,
-            }}
-          >
-            Nikki&apos;s
-            <br />
-            Notes
-          </h2>
-
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
-            <PixelStar color="#B3446C" />
-            <div
-              style={{
-                height: 1,
-                flex: 1,
-                background: 'rgba(179,68,108,0.4)',
-              }}
-            />
-            <PixelStar color="#B3446C" />
-          </div>
-
-          <p
-            style={{
-              fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 14,
-              color: 'rgba(179,68,108,0.7)',
-              lineHeight: 1.6,
-              letterSpacing: '0.04em',
-            }}
-          >
-            thoughts, experiments,
-            <br />
-            and things i&apos;m learning
-          </p>
-        </div>
-
-        {/* Bottom strip */}
-        <div className="pixel-divider" />
-
-        {/* Decorated corner stars */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6, marginTop: 4 }}>
-          <PixelStar color="rgba(179,68,108,0.4)" />
-          <PixelStar color="rgba(179,68,108,0.2)" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ─── Open notebook two-page spread ───────────────────────────────────────────
-
-function NotebookOpen({ posts, onClose }: { posts: Post[]; onClose: () => void }) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        border: '2px solid rgba(179,68,108,0.55)',
-        boxShadow: '6px 6px 0 rgba(0,0,0,0.7)',
-        overflow: 'hidden',
-      }}
-    >
-      {/* ── Notebook top bar (binding) ───────────────────────────────────── */}
-      <div
-        style={{
-          background: '#B3446C',
-          height: 32,
-          display: 'flex',
-          alignItems: 'center',
-          padding: '0 16px',
-          gap: 12,
-          borderBottom: '2px solid rgba(0,0,0,0.35)',
-          flexShrink: 0,
-        }}
-      >
-        {/* Ring row */}
-        {Array.from({ length: 9 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              border: '2px solid rgba(0,0,0,0.45)',
-              background: '#0a0809',
-              flexShrink: 0,
-            }}
-          />
-        ))}
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          aria-label="Close notebook"
-          style={{
-            marginLeft: 'auto',
-            background: 'none',
-            border: '1px solid rgba(252,231,243,0.35)',
-            color: '#fce7f3',
-            fontFamily: 'var(--font-pixel), monospace',
-            fontSize: 14,
-            padding: '2px 8px',
-            letterSpacing: '0.06em',
-            cursor: 'pointer',
-            flexShrink: 0,
-          }}
-        >
-          close ×
-        </button>
-      </div>
-
-      {/* ── Two-page spread ─────────────────────────────────────────────────── */}
-      <div
-        style={{
-          display: 'flex',
-          background: 'var(--pixel-paper-open)',
-          minHeight: 520,
-        }}
-      >
-        {/* LEFT PAGE ── intro / meta */}
-        <div
-          className="pixel-lined"
-          style={{
-            width: '38%',
-            minWidth: 180,
-            padding: '24px 20px',
-            borderRight: '2px solid rgba(179,68,108,0.2)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            flexShrink: 0,
-            // hide on very narrow screens — handled by the single-page view
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 26,
-              color: 'var(--pixel-ink)',
-              lineHeight: 1.4,
-              margin: 0,
-            }}
-          >
-            // blog
-          </h2>
-
-          <p
-            style={{
-              fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 18,
-              color: 'rgba(179,68,108,0.8)',
-              lineHeight: 1.5,
-              letterSpacing: '0.04em',
-            }}
-          >
-            nikki&apos;s notes
-          </p>
-
-          <div className="pixel-divider" style={{ margin: '4px 0' }} />
-
-          <p
-            style={{
-              fontSize: 15,
-              color: 'var(--pixel-ink)',
-              opacity: 0.55,
-              lineHeight: 1.7,
-            }}
-          >
-            thoughts,<br />experiments,<br />and things i&apos;m learning.
-          </p>
-
-          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div className="pixel-divider" />
-            <div style={{ display: 'flex', gap: 8 }}>
-              <PixelStar color="#B3446C" />
-              <PixelStar color="rgba(179,68,108,0.45)" />
-              <PixelStar color="rgba(179,68,108,0.2)" />
-            </div>
-            <p className="pixel-label" style={{ color: 'rgba(179,68,108,0.5)' }}>
-              {posts.length} {posts.length === 1 ? 'entry' : 'entries'}
-            </p>
-          </div>
-        </div>
-
-        {/* RIGHT PAGE ── post list */}
-        <div
-          className="pixel-lined"
-          style={{
-            flex: 1,
-            padding: '24px 20px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 0,
-            overflowY: 'auto',
-          }}
-        >
-          {posts.length === 0 ? (
-            <p style={{ fontSize: 14, opacity: 0.45, fontStyle: 'italic' }}>
-              Nothing written yet. Check back soon.
-            </p>
-          ) : (
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {posts.map((post, i) => (
-                <li
-                  key={post.slug}
-                  style={{
-                    borderBottom: i < posts.length - 1 ? '1px solid rgba(179,68,108,0.12)' : 'none',
-                    padding: '16px 0',
-                  }}
-                >
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    style={{ textDecoration: 'none', display: 'block' }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 26,
-                          color: 'var(--pixel-ink)',
-                          lineHeight: 1.4,
-                          transition: 'color 0.15s ease',
-                        }}
-                        className="post-title"
-                      >
-                        {post.metadata.title}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-pixel), monospace',
-                          fontSize: 16,
-                          color: 'rgba(179,68,108,0.65)',
-                          whiteSpace: 'nowrap',
-                          flexShrink: 0,
-                        }}
-                      >
-                        {formatDate(post.metadata.publishedAt)}
-                      </span>
-                    </div>
-
-                    {post.metadata.summary && (
-                      <p
-                        style={{
-                          marginTop: 6,
-                          fontSize: 15,
-                          color: 'var(--pixel-ink)',
-                          opacity: 0.55,
-                          lineHeight: 1.65,
-                        }}
-                      >
-                        {post.metadata.summary}
-                      </p>
-                    )}
-
-                    <span
-                      style={{
-                        marginTop: 6,
-                        display: 'inline-block',
-                        fontFamily: 'var(--font-pixel), monospace',
-                        fontSize: 18,
-                        color: '#B3446C',
-                        letterSpacing: '0.04em',
-                      }}
-                    >
-                      read →
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-
-      {/* ── Bottom margin / page numbers ─────────────────────────────────────── */}
-      <div
-        style={{
-          background: 'var(--pixel-paper-open)',
-          borderTop: '1px solid rgba(179,68,108,0.12)',
-          padding: '8px 20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <span className="pixel-label" style={{ color: 'rgba(179,68,108,0.4)' }}>
-          nikki rana
-        </span>
-        <span className="pixel-label" style={{ color: 'rgba(179,68,108,0.4)' }}>
-          p. 1
-        </span>
-      </div>
-    </div>
   )
 }
