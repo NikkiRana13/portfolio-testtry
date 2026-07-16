@@ -4,14 +4,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { projects } from 'app/projects/data'
 import { timeline } from 'app/content/timeline'
+import type { TimelineEntry } from 'app/content/timeline'
 import { heroLinks, gallery } from 'app/content/about'
 import { Reveal } from 'app/components/reveal'
 import { ProjectCard } from 'app/components/project-card'
 import { TerminalAbout } from 'app/components/terminal'
+import { TimelineModal } from 'app/components/timeline-modal'
 
 export default function Page() {
   const [displayText, setDisplayText] = useState('')
   const [done, setDone] = useState(false)
+  const [selectedEntry, setSelectedEntry] = useState<TimelineEntry | null>(null)
   const message = "Hey, I'm Nikki. What's up?"
 
   useEffect(() => {
@@ -193,10 +196,19 @@ export default function Page() {
                           {dateLabel}
                         </p>
                         {/* Card */}
-                        <div className="card rounded-xl p-4 ring-1 ring-white/8">
-                          <p className="font-semibold text-pink-100 leading-snug">
-                            {entry.title}
-                          </p>
+                        <button
+                          onClick={() => setSelectedEntry(entry)}
+                          className="card w-full text-left rounded-xl p-4 ring-1 ring-white/8 transition-all hover:ring-[#B3446C]/40 hover:bg-white/5 group"
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="font-semibold text-pink-100 leading-snug">
+                              {entry.title}
+                            </p>
+                            <span className="text-[#B3446C]/50 text-xs font-pixel mt-0.5 flex-shrink-0 group-hover:text-[#B3446C] transition-colors"
+                                  style={{ fontFamily: 'var(--font-pixel), monospace', fontSize: 12 }}>
+                              + more
+                            </span>
+                          </div>
                           {entry.organization && (
                             <p className="mt-0.5 text-sm text-pink-300/65">
                               {entry.organization}
@@ -205,7 +217,7 @@ export default function Page() {
                           <p className="mt-2 text-sm text-pink-100/65 leading-relaxed">
                             {entry.description}
                           </p>
-                        </div>
+                        </button>
                       </div>
                     </Reveal>
                   )
@@ -249,6 +261,10 @@ export default function Page() {
         )}
 
       </div>
+
+      {selectedEntry && (
+        <TimelineModal entry={selectedEntry} onClose={() => setSelectedEntry(null)} />
+      )}
     </main>
   )
 }
