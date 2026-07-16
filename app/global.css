@@ -428,9 +428,35 @@ html.light .glass {
 }
 html.light .card {
   background-color: rgba(255,255,255,0.55);
+  box-shadow: 0 0 0 1px rgba(179,68,108,0.22);
 }
 html.light .card:hover {
   background-color: rgba(255,255,255,0.85);
+  box-shadow: 0 0 0 1.5px rgba(179,68,108,0.42);
+}
+
+/* ─── LIGHT MODE: VISIBLE BORDERS ─────────────────────────────────────────── */
+/* In dark mode, white rings and faint glass glows are readable against dark bg.
+   On light bg they vanish — swap to a visible pink-rose tint. */
+
+/* Section wrappers: stronger inset ring + subtle drop shadow */
+html.light .glass-ring {
+  box-shadow: 0 0 0 2px rgba(179,68,108,0.32) inset,
+              0 2px 10px rgba(0,0,0,0.07);
+}
+
+/* Tailwind ring-white/* classes (project cards, image boxes, timeline cards,
+   profile photo, gallery images) → replace invisible white ring with pink */
+html.light [class*="ring-white"] {
+  --tw-ring-color: rgba(179,68,108,0.32);
+}
+html.light [class*="hover\:ring-white"]:hover {
+  --tw-ring-color: rgba(179,68,108,0.55);
+}
+
+/* Image placeholder backgrounds: lighten so they read as containers not voids */
+html.light [class*="bg-neutral-9"] {
+  background-color: rgba(179,68,108,0.06) !important;
 }
 
 /* Aurora: subtle on light bg */
