@@ -16,21 +16,21 @@ export type TimelineEntry = {
 
 export const timeline: TimelineEntry[] = [
   {
-    startYear: '2020',
+    startYear: '2021',
     endYear: '2024',
-    title: 'High School',
-    organization: '[Your school name]',
+    title: 'Youth Advisory Council',
+    organization: 'Region of Waterloo',
     description:
-      '[Replace this — describe your high school years: what you were involved in, what you cared about, anything that shaped where you went next.]',
-    type: 'education',
+      'Joined as a member, later advancing to Senior Member. Contributed to municipal policy discussions, helped redesign the Upstream Fund, and participated in projects overseeing a ~$2.1M budget. My first real exposure to systems-level leadership.',
+    type: 'leadership',
   },
   {
-    startYear: '2023',
-    endYear: '2024',
-    title: 'CTPC Coding Tournament',
-    organization: 'CTPC',
+    startYear: '2022',
+    endYear: '2025',
+    title: 'Co-founder & Organizer',
+    organization: '#Launch — Canadian Tech Competition',
     description:
-      'Organized a national student-run coding competition across multiple campuses. Raised $7K+ in sponsorships, coordinated 800+ attendees, and built ops workflows from scratch.',
+      'Co-founded a national student programming competition that grew to 800+ participants, $7K+ in sponsorships, and a 45% YoY satisfaction improvement. Led partnerships, operations, and product decisions. My first taste of real product management.',
     type: 'leadership',
   },
   {
@@ -38,24 +38,42 @@ export const timeline: TimelineEntry[] = [
     title: 'Systems Design Engineering',
     organization: 'University of Waterloo',
     description:
-      'Studying the intersection of systems, people, and technology. Coursework spans human factors, data structures, circuits, and usability — building a full-stack understanding of product and engineering.',
+      'Studying the intersection of systems, people, and technology. Coursework spans human factors, data structures, digital logic, and usability. Recipient of the Ted Rogers Legacy Scholarship ($100,000). Class Representative and Engineering Ambassador.',
     type: 'education',
   },
   {
     startYear: '2025',
     endYear: '2025',
-    title: 'Corporate Innovation Consulting',
+    title: 'Junior Consultant',
     organization: 'NorthGuide',
     description:
-      'First co-op. Applied engineering thinking to real business challenges — ambiguous problems, tight timelines, and cross-functional teams.',
+      'First co-op. Delivered 20+ economic development proposals, led website redesign, and improved UX for client-facing products. Worked across ambiguous briefs and tight timelines in a small cross-functional team.',
     type: 'work',
   },
   {
     startYear: '2025',
-    title: 'AI Strategy & Product',
-    organization: 'Rogers',
+    endYear: '2025',
+    title: 'Applied AI & Product Intern',
+    organization: 'Rogers Communications',
     description:
-      'Working on real-world GenAI solutions and cross-functional product initiatives on the AI Strategy & Product team.',
+      'Built MentorAI — an internal AI coaching platform processing 9,000+ transcripts/day using Azure OpenAI, Databricks, and MLflow. Features included KPI extraction, empathy analysis, compliance flagging, and sales coaching. Projected impact ~$1.5M/year. Won the Rogers Innovators Challenge People\'s Choice Award; project selected for production.',
+    type: 'work',
+  },
+  {
+    startYear: '2026',
+    endYear: '2026',
+    title: 'Undergraduate Research Assistant',
+    organization: 'University of Waterloo',
+    description:
+      'Research under Professor Robert Hunter exploring prompt engineering, AI literacy, and structured ideation in design education. First formal research experience.',
+    type: 'work',
+  },
+  {
+    startYear: '2026',
+    title: 'Software Engineering Intern',
+    organization: 'PointClickCare',
+    description:
+      'Backend-focused co-op working in Java, Docker, and SQL Server. Increased unit test coverage from 67% → 86%. Proactively pursued frontend and product exposure beyond assigned tickets, and proposed internal AI tooling including Claude-powered onboarding workflows.',
     type: 'work',
   },
 ]
