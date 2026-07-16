@@ -101,7 +101,7 @@ function TabStrip({ activeTab, onTabChange }: { activeTab: Tab | null; onTabChan
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      width: 48,
+      width: 64,
       flexShrink: 0,
       borderLeft: '2px solid rgba(179,68,108,0.2)',
     }}>
@@ -115,9 +115,9 @@ function TabStrip({ activeTab, onTabChange }: { activeTab: Tab | null; onTabChan
             aria-label={`${tab.label} posts`}
             style={{
               flex: 1,
-              background: isActive ? tab.color : 'rgba(179,68,108,0.06)',
+              background: isActive ? tab.color : 'rgba(179,68,108,0.12)',
               border: 'none',
-              borderBottom: i < TABS.length - 1 ? '1px solid rgba(179,68,108,0.18)' : 'none',
+              borderBottom: i < TABS.length - 1 ? '1px solid rgba(179,68,108,0.25)' : 'none',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -127,10 +127,10 @@ function TabStrip({ activeTab, onTabChange }: { activeTab: Tab | null; onTabChan
               position: 'relative',
             }}
             onMouseEnter={e => {
-              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.15)'
+              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.28)'
             }}
             onMouseLeave={e => {
-              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.06)'
+              if (!isActive) (e.currentTarget as HTMLElement).style.background = 'rgba(179,68,108,0.12)'
             }}
           >
             {/* Active tab gets a small left arrow indicator */}
@@ -147,8 +147,9 @@ function TabStrip({ activeTab, onTabChange }: { activeTab: Tab | null; onTabChan
             )}
             <span style={{
               fontFamily: 'var(--font-pixel), monospace',
-              fontSize: 12,
-              color: isActive ? '#fce7f3' : 'rgba(179,68,108,0.55)',
+              fontSize: 14,
+              color: isActive ? '#fce7f3' : 'var(--pixel-ink)',
+              opacity: isActive ? 1 : 0.75,
               writingMode: 'vertical-rl',
               textOrientation: 'mixed',
               transform: 'rotate(180deg)',
@@ -261,10 +262,11 @@ function RightPage({ posts, activeTab }: { posts: Post[]; activeTab: Tab | null 
       >
         <p style={{
           fontFamily: 'var(--font-pixel), monospace',
-          fontSize: 16,
-          color: 'rgba(179,68,108,0.45)',
+          fontSize: 26,
+          color: 'var(--pixel-ink)',
           textAlign: 'center',
-          lineHeight: 1.8,
+          lineHeight: 1.7,
+          opacity: 0.7,
         }}>
           pick a tab →<br />to start reading
         </p>
