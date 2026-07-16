@@ -19,6 +19,7 @@ import Footer from './components/footer'
 import { PixelGoose } from './components/pixel-goose'
 import { FlowerCollectionProvider } from './context/FlowerCollectionContext'
 import { FlowerLayer, BouquetController } from './components/flowers'
+import { AsciiGarden } from './components/ascii-garden'
 import { baseUrl } from './sitemap'
 
 export const metadata: Metadata = {
@@ -67,6 +68,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();` }} />
       </head>
       <body className="antialiased">
+        <AsciiGarden />
         <FlowerCollectionProvider>
           <main className="flex-auto min-w-0 flex flex-col">
             <Navbar />

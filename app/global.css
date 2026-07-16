@@ -572,6 +572,12 @@ html.light [class^="bg-[#0"] [class*="text-pink-"] {
   @keyframes bouquetGlow    { from, to { box-shadow: 0 0 0 2px rgba(179,68,108,0.5); } }
 }
 
+/* ─── ASCII GARDEN ───────────────────────────────────────────────────────── */
+/* Hide on small screens — plants clutter narrow viewports */
+@media (max-width: 768px) {
+  .ascii-garden-root { display: none; }
+}
+
 /* ─── TIMELINE MODAL ─────────────────────────────────────────────────────── */
 .timeline-modal-box {
   box-shadow: 6px 6px 0 rgba(0,0,0,0.75), 0 0 40px rgba(179,68,108,0.12);
