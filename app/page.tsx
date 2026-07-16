@@ -57,16 +57,8 @@ export default function Page() {
           <div className="flex flex-col-reverse lg:flex-row items-start gap-8 lg:gap-14">
 
             {/* Profile photo */}
-            <div className="w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 mx-auto lg:mx-0 self-start rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10">
-              {/* ↓ Replace with your photo: place file at public/images/profile.jpg
-                  then swap this div for:
-                  <Image src="/images/profile.jpg" alt="Nikki Rana" fill className="object-cover" />
-              */}
-              <div className="w-full h-full flex items-center justify-center text-xs text-neutral-500 text-center p-4 leading-relaxed">
-                Profile photo
-                <br />
-                <span className="opacity-60">/public/images/profile.jpg</span>
-              </div>
+            <div className="w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64 flex-shrink-0 mx-auto lg:mx-0 self-start rounded-2xl overflow-hidden bg-neutral-900/60 ring-1 ring-white/10 relative">
+              <Image src="/images/profile/nikki.jpg" alt="Nikki Rana" fill className="object-cover object-top" />
             </div>
 
             {/* Text */}
