@@ -16,14 +16,12 @@ export function TimelineModal({
         ? entry.startYear
         : `${entry.startYear} – ${entry.endYear}`
 
-  // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
-  // Prevent body scroll while open
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
@@ -36,7 +34,7 @@ export function TimelineModal({
         position: 'fixed',
         inset: 0,
         zIndex: 60,
-        background: 'rgba(0,0,0,0.65)',
+        background: 'rgba(0,0,0,0.55)',
         backdropFilter: 'blur(4px)',
         display: 'flex',
         alignItems: 'center',
@@ -47,15 +45,15 @@ export function TimelineModal({
     >
       <div
         onClick={e => e.stopPropagation()}
+        className="timeline-modal-box"
         style={{
           position: 'relative',
           width: '100%',
           maxWidth: 540,
           maxHeight: '85vh',
           overflowY: 'auto',
-          background: '#0e0710',
+          background: 'var(--bg)',
           border: '2px solid rgba(179,68,108,0.6)',
-          boxShadow: '6px 6px 0 rgba(0,0,0,0.8), 0 0 40px rgba(179,68,108,0.12)',
           padding: '28px 28px 24px',
           animation: 'panelSlideUp 0.2s ease',
         }}
@@ -69,8 +67,8 @@ export function TimelineModal({
             top: 14,
             right: 16,
             background: 'none',
-            border: '1px solid rgba(179,68,108,0.35)',
-            color: 'rgba(179,68,108,0.8)',
+            border: '1px solid rgba(179,68,108,0.4)',
+            color: 'var(--muted)',
             fontFamily: 'var(--font-pixel), monospace',
             fontSize: 14,
             padding: '2px 8px',
@@ -85,7 +83,7 @@ export function TimelineModal({
         <p style={{
           fontFamily: 'var(--font-pixel), monospace',
           fontSize: 13,
-          color: 'rgba(179,68,108,0.65)',
+          color: 'rgba(179,68,108,0.7)',
           marginBottom: 10,
           letterSpacing: '0.06em',
         }}>
@@ -96,7 +94,7 @@ export function TimelineModal({
         <h3 style={{
           fontFamily: 'var(--font-pixel), monospace',
           fontSize: 22,
-          color: '#fce7f3',
+          color: 'var(--fg)',
           lineHeight: 1.35,
           margin: '0 0 6px 0',
         }}>
@@ -126,7 +124,8 @@ export function TimelineModal({
         {/* Description */}
         <p style={{
           fontSize: 14,
-          color: 'rgba(252,231,243,0.75)',
+          color: 'var(--fg)',
+          opacity: 0.8,
           lineHeight: 1.75,
           marginBottom: entry.highlights?.length ? 20 : 0,
         }}>
@@ -149,7 +148,8 @@ export function TimelineModal({
                 </span>
                 <span style={{
                   fontSize: 14,
-                  color: 'rgba(252,231,243,0.7)',
+                  color: 'var(--fg)',
+                  opacity: 0.78,
                   lineHeight: 1.65,
                 }}>
                   {h}
